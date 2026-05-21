@@ -219,7 +219,7 @@ __marimo__/
 
 # REALM Spacifics
 !data/DataCache/default.png
-!simulation/controllers/calibration/
+!simulation/controllers/Calibration/
 !simulation/controllers/Example/
 *.ini
 *.DS_Store
