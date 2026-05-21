@@ -1,0 +1,48 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/floors/protos/Floor.proto"
+IMPORTABLE EXTERNPROTO "../protos/WorldObjects/Landmark.proto"
+IMPORTABLE EXTERNPROTO "../protos/WorldObjects/Obstacle.proto"
+IMPORTABLE EXTERNPROTO "../protos/HamBot/HamBot.proto"
+IMPORTABLE EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/traffic/protos/RectangularPanel.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/appearances/protos/Parquetry.proto"
+
+WorldInfo {
+  ERP 1
+  randomSeed 25
+  contactProperties [
+    ContactProperties {
+      material1 "casterWheel"
+      coulombFriction [
+        0.1
+      ]
+      bounce 0
+    }
+    ContactProperties {
+      material1 "driveWheel"
+      bounce 0
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0943999999999994
+  position 3.5494896089108205e-05 3.549499645623828e-05 13.60079196654361
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+  luminosity 1.1
+}
+Floor {
+  name "Maze Floor"
+  size 100 100
+  tileSize 2 2
+  appearance Parquetry {
+    type "light strip"
+  }
+}
+HamBot {
+  translation 0 0 0.09
+}

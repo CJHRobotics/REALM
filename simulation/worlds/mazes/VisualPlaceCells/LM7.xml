@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="us-ascii"?>
+
+<world>
+
+
+    <wall x1="2.61" y1="1.85" x2="1.85" y2="0.00" />
+	<wall x1="1.85" y1="2.61" x2="0.00" y2="1.85" />
+	<wall x1="0.00" y1="1.85" x2="-1.85" y2="2.61" />
+	<wall x1="-1.85" y1="0.00" x2="-2.61" y2="1.85" />
+	<wall x1="-2.61" y1="0.00" x2="-1.85" y2="-1.85" />
+	<wall x1="-1.85" y1="-1.85" x2="-0.00" y2="-2.61" />
+	<wall x1="-0.00" y1="-2.61" x2="1.85" y2="-1.85" />
+	<wall x1="1.85" y1="-1.85" x2="2.61" y2="0.00" />
+
+	<landmark x="1.85" y="1.85" height="10" red="1.00" green="0.00" blue="0.00" />
+	<landmark x="0.00" y="2.61" height="10" red="0.00" green="1.00" blue="0.00" />
+	<landmark x="-1.85" y="1.85" height="10" red="0.00" green="0.00" blue="1.00" />
+	<landmark x="-2.61" y="0.00" height="10" red="1.00" green="1.00" blue="0.00" />
+	<landmark x="-2.61" y="0.00" height="10" red="1.00" green="0.00" blue="1.00" />
+	<landmark x="-1.85" y="-1.85" height="10" red="0.00" green="1.00" blue="1.00" />
+	<landmark x="-0.00" y="-2.61" height="10" red="1.00" green="0.50" blue="0.00" />
+	<landmark x="1.85" y="-1.85" height="10" red="0.50" green="0.00" blue="0.50" />
+	<landmark x="2.61" y="0.00" height="10" red="0.50" green="0.50" blue="0.00" />
+
+    <experimentStartPositions>
+		<pos x="2.11" y="0.00" theta="1.5707963267948966" />
+		<pos x="-1.49" y="-1.49" theta="1.5707963267948966" />
+		<pos x="0.00" y="2.11" theta="1.5707963267948966" />
+		<pos x="1.49" y="-1.49" theta="1.5707963267948966" />
+	</experimentStartPositions>
+	<habituationStartPositions>
+		<pos x="-0.00" y="-2.11" theta="1.5707963267948966" />
+		<pos x="-1.49" y="1.49" theta="1.5707963267948966" />
+		<pos x="1.49" y="1.49" theta="1.5707963267948966" />
+		<pos x="-2.11" y="0.00" theta="1.5707963267948966" />
+	</habituationStartPositions>
+
+	<goal id="1" x="0.0" y="0.0" />
+
+
+</world>

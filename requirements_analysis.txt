@@ -1,0 +1,14 @@
+# Analysis venv — Jupyter, data analysis, statistics
+numpy
+scipy
+pandas
+scikit-learn
+statsmodels
+opencv-python
+matplotlib
+seaborn
+shapely
+tqdm
+jupyterlab
+ipykernel
+ipywidgets

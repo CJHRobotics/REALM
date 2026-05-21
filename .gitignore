@@ -216,3 +216,14 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# REALM Spacifics
+!data/DataCache/temp.png
+!simulation/controllers/calibration/
+!simulation/controllers/Example/
+*.ini
+*.DS_Store
+.DS_Store
+.env
+.vscode/
+realm_tools/robot_lib/chance_robot.py

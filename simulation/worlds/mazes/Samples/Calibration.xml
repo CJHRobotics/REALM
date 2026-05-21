@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="us-ascii"?>
+
+<world>
+
+
+    <wall x1="-2.00" y1="1.00" x2="2.00" y2="1.00" />
+	<wall x1="2.00" y1="1.00" x2="2.00" y2="-1.00" />
+	<wall x1="2.00" y1="-1.00" x2="-2.00" y2="-1.00" />
+	<wall x1="-2.00" y1="-1.00" x2="-2.00" y2="1.00" />
+
+
+	<tag_landmark x="0.00" y="1.00" theta="-1.571" tag_id="0" height="1.0" width="1.0" red="1.00" green="0.00" blue="0.00" />
+	<tag_landmark x="2.00" y="0.00" theta="3.141" tag_id="1" height="1.0" width="1.0" red="0.00" green="1.00" blue="0.00" />
+	<tag_landmark x="0.00" y="-1.00" theta="1.571" tag_id="2" height="1.0" width="1.0" red="0.00" green="0.00" blue="1.00" />
+	<tag_landmark x="-2.00" y="0.00" theta="0.000" tag_id="3" height="1.0" width="1.0" red="1.00" green="1.00" blue="0.00" />
+
+    <experimentStartPositions>
+		<pos x="-1.5" y="0.00" theta="0.0" />
+	</experimentStartPositions>
+
+	<goal id="1" x="0.0" y="0.0" />
+
+
+</world>

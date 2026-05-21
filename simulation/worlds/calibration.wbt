@@ -1,0 +1,44 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/floors/protos/Floor.proto"
+IMPORTABLE EXTERNPROTO "../protos/WorldObjects/Landmark.proto"
+IMPORTABLE EXTERNPROTO "../protos/WorldObjects/Obstacle.proto"
+IMPORTABLE EXTERNPROTO "../protos/HamBot/HamBot.proto"
+IMPORTABLE EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/traffic/protos/RectangularPanel.proto"
+
+WorldInfo {
+  ERP 1
+  randomSeed 25
+  contactProperties [
+    ContactProperties {
+      material1 "casterWheel"
+      coulombFriction [
+        0.1
+      ]
+      bounce 0
+    }
+    ContactProperties {
+      material1 "driveWheel"
+      bounce 0
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.5773502640648389 0.5773502067357256 0.5773503367683055 2.094399989946538
+  position 3.54948960891166e-05 3.549499645638665e-05 13.60079196654361
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+  luminosity 1.1
+}
+Floor {
+  name "Maze Floor"
+  tileSize 2 2
+}
+HamBot {
+  translation 0 0 0.09
+  controller "calibration"
+}

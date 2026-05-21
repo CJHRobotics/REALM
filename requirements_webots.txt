@@ -1,0 +1,17 @@
+# Webots venv — image processing, RL, PyTorch, TensorFlow
+numpy==1.26.4
+scipy
+pandas
+scikit-learn
+opencv-python
+matplotlib
+pygame
+shapely
+astar
+tqdm
+torch==2.1.2
+torchvision==0.16.2
+tensorflow==2.15.0
+tensorflow-probability==0.23.0
+gymnasium
+stable-baselines3

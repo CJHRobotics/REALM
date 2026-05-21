@@ -1,0 +1,428 @@
+#VRML_SIM R2025a utf8
+
+PROTO HamBot [
+  field SFVec3f     translation     0 0 0
+  field SFRotation  rotation        0 0 1 1.57
+  field SFString    name            "HamBot"
+  field SFString    controller      "<extern>"
+  field MFString    controllerArgs  []
+  field SFString    customData      ""
+  field SFBool      supervisor      TRUE
+  field SFBool      synchronization TRUE
+  field SFBool      selfCollision   FALSE
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    controller IS controller
+    controllerArgs IS controllerArgs
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
+    selfCollision IS selfCollision
+    children [
+
+      # HamBot Meshes
+      Pose {
+        translation 0.0095 0 -0.0525
+        rotation 0 0 1 1.57
+        children [
+
+          # Black Metal (190940 triangles - no shadow)
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.05 0.05 0.05
+              roughness 0.4
+              metalness 0.9
+            }
+            geometry Mesh {
+              url ["models/HamBot/BlackMetalNoShadow.obj"]
+            }
+            castShadows FALSE
+          }
+
+          # Metal Silver (45910 triangles - no shadow)
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.8 0.8 0.8
+              roughness 0.2
+              metalness 1.0
+            }
+            geometry Mesh {
+              url ["models/HamBot/MetalSilverNoShadow.obj"]
+            }
+            castShadows FALSE
+          }
+
+          # Plastic Black Matte (33364 triangles - no shadow)
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.05 0.05 0.05
+              roughness 0.8
+              metalness 0.0
+            }
+            geometry Mesh {
+              url ["models/HamBot/PlasticBlackMatteNoShadow.obj"]
+            }
+            castShadows FALSE
+          }
+
+          # Plastic White Matte (29884 triangles - over limit)
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.9 0.9 0.9
+              roughness 0.7
+              metalness 0.0
+            }
+            geometry Mesh {
+              url ["models/HamBot/PlasticWhiteMatte.obj"]
+            }
+            castShadows FALSE
+          }
+
+          # Blue PCB No Shadow (956 triangles)
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.0 0.2 0.6
+              roughness 0.6
+              metalness 0.0
+            }
+            geometry Mesh {
+              url ["models/HamBot/BluePCBNoShadow.obj"]
+            }
+            castShadows FALSE
+          }
+
+          # Plastic Black Matte with shadow (17964 triangles)
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.05 0.05 0.05
+              roughness 0.8
+              metalness 0.0
+            }
+            geometry Mesh {
+              url ["models/HamBot/PlasticBlackMatte.obj"]
+            }
+            castShadows TRUE
+          }
+
+          # Plastic Black Gloss (10998 triangles)
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.05 0.05 0.05
+              roughness 0.1
+              metalness 0.1
+            }
+            geometry Mesh {
+              url ["models/HamBot/PlasticBlackGloss.obj"]
+            }
+            castShadows TRUE
+          }
+
+          # Plastic Green (6356 triangles)
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.0 0.5 0.2
+              roughness 0.6
+              metalness 0.0
+            }
+            geometry Mesh {
+              url ["models/HamBot/PlasticGreen.obj"]
+            }
+            castShadows TRUE
+          }
+
+          # Green PCB (4992 triangles)
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.0 0.4 0.1
+              roughness 0.6
+              metalness 0.0
+            }
+            geometry Mesh {
+              url ["models/HamBot/GreenPCB.obj"]
+            }
+            castShadows TRUE
+          }
+
+          # Brass (3488 triangles)
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.8 0.6 0.2
+              roughness 0.3
+              metalness 1.0
+            }
+            geometry Mesh {
+              url ["models/HamBot/Brass.obj"]
+            }
+            castShadows TRUE
+          }
+
+          # Red PCB (1676 triangles)
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.6 0.0 0.0
+              roughness 0.6
+              metalness 0.0
+            }
+            geometry Mesh {
+              url ["models/HamBot/RedPCB.obj"]
+            }
+            castShadows TRUE
+          }
+
+          # Glass Blue (1150 triangles)
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.2 0.4 0.8
+              roughness 0.0
+              metalness 0.0
+              transparency 0.5
+            }
+            geometry Mesh {
+              url ["models/HamBot/GlassBlue.obj"]
+            }
+            castShadows FALSE
+          }
+
+          # Metal Silver with shadow (1026 triangles)
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.8 0.8 0.8
+              roughness 0.2
+              metalness 1.0
+            }
+            geometry Mesh {
+              url ["models/HamBot/MetalSilver.obj"]
+            }
+            castShadows TRUE
+          }
+
+        ]
+      }
+
+      # Left Wheel
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0 1 0
+          anchor 0 0.1025 -0.04
+          dampingConstant 0.5
+          staticFriction 1.0
+        }
+        device [
+          RotationalMotor {
+            name "left motor"
+            maxVelocity 20
+            maxTorque 50
+          }
+          PositionSensor {
+            name "left wheel encoder"
+          }
+        ]
+        endPoint Solid {
+          translation 0 0.1025 -0.04
+          rotation 0 0 1 -1.57
+          children [
+            Pose {
+              translation 0.10 -0.01 -.013
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.05 0.05 0.05
+                    roughness 0.7
+                  }
+                  geometry Mesh {
+                    url ["models/HamBot/Wheel.obj"]
+                  }
+                }
+              ]
+            }
+          ]
+          name "left wheel"
+          boundingObject Pose {
+            rotation 0 1 0 1.57
+            children [
+              Cylinder {
+                height 0.01
+                radius 0.045
+              }
+            ]
+          }
+          physics Physics {
+            density -1
+            mass 0.05
+          }
+        }
+      }
+
+      # Right Wheel
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0 1 0
+          anchor 0 -0.1025 -0.04
+          dampingConstant 0.5
+          staticFriction 1.0
+        }
+        device [
+          RotationalMotor {
+            name "right motor"
+            maxVelocity 20
+            maxTorque 50
+          }
+          PositionSensor {
+            name "right wheel encoder"
+          }
+        ]
+        endPoint Solid {
+          translation 0 -0.1025 -0.04
+          rotation 0 0 1 1.57
+          children [
+            Pose {
+              translation 0.10 -0.01 -.013
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.05 0.05 0.05
+                    roughness 0.7
+                  }
+                  geometry Mesh {
+                    url ["models/HamBot/Wheel.obj"]
+                  }
+                }
+              ]
+            }
+          ]
+          name "right wheel"
+          boundingObject Pose {
+            rotation 0 1 0 1.57
+            children [
+              Cylinder {
+                height 0.01
+                radius 0.045
+              }
+            ]
+          }
+          physics Physics {
+            density -1
+            mass 0.05
+          }
+        }
+      }
+
+      InertialUnit {
+        name "imu"
+        translation 0 0 0
+      }
+
+      Camera {
+        name "camera"
+        translation 0.1 0.0 0.008
+        rotation 0 0 1 0
+        fieldOfView 0.7854
+        width 224
+        height 224
+        recognitionColors [
+          1 0 0,
+          0 1 0,
+          0 0 1,
+          1 1 0
+        ]
+        recognition Recognition { }
+      }
+
+      Lidar {
+        name "lidar"
+        translation 0 0 0.095
+        rotation 0 0 1 0
+        fieldOfView 6.283184
+        horizontalResolution 360
+        numberOfLayers 1
+        near 0.05
+        minRange 0.05
+        maxRange 12.0
+        noise 0.000833
+        resolution 0.01
+        type "fixed"
+      }
+
+      GPS {
+        name "gps"
+      }
+
+      Display {
+        name "Place Cell Display"
+        width 800
+        height 800
+      }
+
+      Solid {
+        name "caster_rear"
+        translation -0.086 -0.00 -0.075
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 1 1 1
+              roughness 0.6
+              metalness 0.9
+            }
+            geometry DEF CASTER_SPHERE_REAR Sphere {
+              radius 0.010
+              subdivision 4
+            }
+          }
+        ]
+        boundingObject USE CASTER_SPHERE_REAR
+        physics Physics {
+          damping Damping {
+            linear 0.1
+            angular 0.1
+          }
+        }
+        contactMaterial "casterWheel"
+      }
+
+      Solid {
+        name "caster_front"
+        translation 0.086 -0.00 -0.075
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 1 1 1
+              roughness 0.6
+              metalness 0.9
+            }
+            geometry DEF CASTER_SPHERE_FRONT Sphere {
+              radius 0.010
+              subdivision 4
+            }
+          }
+        ]
+        boundingObject USE CASTER_SPHERE_FRONT
+        physics Physics {
+          damping Damping {
+            linear 0.1
+            angular 0.1
+          }
+        }
+        contactMaterial "casterWheel"
+      }
+
+    ]
+
+    boundingObject Pose {
+      translation 0.0 0.0 0.0
+      children [
+        Box {
+          size 0.2 0.171 0.15
+        }
+      ]
+    }
+
+    physics Physics {
+      density -1
+      mass 0.226
+    }
+  }
+}
