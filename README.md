@@ -1,207 +1,173 @@
-# FAIRIS
+# REALM
 
-FAIRIS is a project framework that allows you to implement navigational control logic directly on the open-source robotic simulation platform Webots. With this framework, you can create your own Webots controller without the need to set up a simulated environment or robot, as we provide all the materials required to get started.
+**REALM** (Robotic Environment for Autonomous Learning and Mapping) is a template repository for building Webots-based robot simulation experiments centered around reinforcement learning research. The goal is to provide a clean, minimal starting point that can be forked and extended for new papers and experiments without having to rebuild the simulation infrastructure from scratch.
+
+The repo provides:
+- A pre-configured HamBot robot with sensors (camera, LiDAR, IMU, GPS, encoders) ready to use in Webots
+- A Gymnasium-compatible environment skeleton for RL training with Stable-Baselines3 or PyTorch
+- Maze/environment loading and management tools
+- Two isolated Python environments — one for simulation/training, one for data analysis
+- A calibration controller for manually driving the robot with keyboard controls
+
+---
 
 ## Requirements
 
-To work with FAIRIS, ensure that your system meets the following requirements:
+### 1. Python 3.11
 
-### 1. Python 3.10+ 
-NOTE: 3.12 is not compatible at this time! 
-#### **Windows Users**:
-- **Important**: It’s crucial to install Python 3.10+ from the Microsoft Store to avoid potential issues with PATH configurations and permissions.
-- **Installation Instructions**:
-  1. Open the **Microsoft Store** on your Windows PC.
-  2. In the search bar, type **"Python 3.10"**.
-  3. Select **Python 3.10** from the list of results.
-  4. Click **Get** or **Install** to download and install Python 3.10 on your machine.
-     - [Microsoft Store Python 3.10](https://docs.microsoft.com/en-us/windows/images/store-install-python.png)  
+REALM requires Python 3.11 specifically.
 
-  5. Once installed, verify the installation by opening Command Prompt and typing:
-  
-   ```shell
-   python3 --version
-   ```
+**macOS:**
+```shell
+brew install python@3.11
+```
 
-  - This should return `Python 3.10.x` if installed correctly.
+**Linux:**
+```shell
+sudo apt-get install python3.11
+```
 
-#### **Linux Users**:
-- **Ensure you have Python 3.10+ installed.** Most distributions can install it using the package manager:
-  
-   ```shell
-   sudo apt-get install python3.10
-   ```
+**Windows:**
+Install Python 3.11 from the [Microsoft Store](https://apps.microsoft.com/store/detail/python-311/9NRWMJP3717K) to avoid PATH issues.
 
-### 2. Cyberbotics Webots R2025a
+### 2. Webots R2025a
 
-FAIRIS works in conjunction with Webots version R2025a. Ensure you install Webots correctly:
+Download and install from the [Cyberbotics website](https://cyberbotics.com/#download).
 
-#### **Linux Users**:
-
-* **Do not install Webots from the Snap packaging** due to known compatibility issues. Instead, use the `.deb`
-  package or tarball for installation.
-* **Installation Instructions**:
-
-  * Follow the detailed installation guide [here](https://cyberbotics.com/doc/guide/installation-procedure#installation-on-linux).
-
-#### **Windows and macOS Users**:
-
-* Download and install Webots R2023b from the official [Cyberbotics website](https://cyberbotics.com/#download).
+> **Linux users:** Do not install Webots via Snap. Use the `.deb` package or tarball instead.
 
 ### 3. Git
 
-Ensure that you have Git installed to clone the FAIRIS repository:
+**Windows:** [git-scm.com](https://git-scm.com/download/win)
 
-* **Windows**: Download and install Git from [git-scm.com](https://git-scm.com/download/win).
+**Linux:** `sudo apt-get install git`
 
-* **Linux**: Install Git via your package manager:
-
-  ```shell
-  sudo apt-get install git
-  ```
-
-* **macOS**: Install Git via Homebrew:
-
-  ```shell
-  brew install git
-  ```
+**macOS:** `brew install git`
 
 ---
 
-## Setup Instructions
+## Setup
 
-Follow these steps to set up FAIRIS on your local machine:
-
-### 1. Clone the Repository
-
-Clone this repository onto your device. There are numerous ways to achieve this, and you can decide which option is best for you. If you plan to use this repo for a course or an extended period, we recommend that you clone the repo and perform pulls when an update is pushed. A complete guide on how to clone GitHub repositories can be found [here](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository).
-
-**Clone command:**
+### 1. Clone the repository
 
 ```shell
-git clone https://github.com/biorobaw/FAIRIS.git
+git clone <your-repo-url>
+cd REALM
 ```
- After you clone the Repo, CD into the directory by running 
-```shell
-cd FAIRIS
-```
-### 2. Run the Setup Script
 
-Run the provided setup script to configure the project. This script:
-
-* Searches for Python 3.11 (falls back to later 3.10 if needed)
-* Creates a Python virtual environment
-* Adds the FAIRIS root directory to the Python path
-* Automatically generates `runtime.ini` files in all controller directories
+### 2. Run the install script
 
 ```shell
-python3 create_venv.py
+# Core environment only (Webots + RL training)
+python setup/realm_install.py
+
+# Core + analysis environment (adds Jupyter, statsmodels, seaborn, etc.)
+python setup/realm_install.py --data_analysis
 ```
 
-You should see output indicating that the venv was created and that the `runtime.ini` files were added.
+This will:
+- Find Python 3.11 on your system
+- Create `realm_core_venv` (and optionally `realm_analysis_venv`)
+- Install all dependencies
+- Add the project root to the venv's Python path
+- Generate `runtime.ini` files in all Webots controller directories
 
-
-### 3. Activate Python Virtual Environment
-
-After creating the virtual environment, you need to activate it before using the FAIRIS packages.
-
-#### **Windows**:
-
+To remove the environments:
 ```shell
-fairis_venv\Scripts\activate
+python setup/realm_install.py --uninstall
+python setup/realm_install.py --uninstall --data_analysis
 ```
 
-#### **macOS/Linux**:
+### 3. Activate the environment
 
+**macOS/Linux:**
 ```shell
-source fairis_venv/bin/activate
+source realm_core_venv/bin/activate
 ```
 
-You should now see your terminal prompt change to indicate that the virtual environment is active (e.g., `(fairis_venv)` at the start of your command line).
+**Windows:**
+```shell
+realm_core_venv\Scripts\activate
+```
+
+For analysis work:
+```shell
+source realm_analysis_venv/bin/activate   # macOS/Linux
+realm_analysis_venv\Scripts\activate      # Windows
+```
+
+> If you add a new controller under `simulation/controllers/`, re-run `python setup/add_runtime_ini.py` to generate its `runtime.ini`.
 
 ---
 
-### 4. Install Required Python Packages
-
-With the virtual environment activated, install all necessary dependencies using:
-
-```shell
-pip install -r requirements.txt
-```
-
-This will install all libraries needed for your Python Virtual environment to run FAIRIS in Webots.
-
----
-## Updating Runtime Configurations for New Controllers
-
-If you create a **new controller directory** under `Simulation/controllers/`, you will need to **re-run** the 
-`add_runtime_ini.py` script to generate the appropriate `runtime.ini` file for that new controller:
-
-```shell
-python3 add_runtime_ini.py
-```
-
-This ensures that Webots knows to use the correct Python interpreter from your virtual environment.
-
-### Example Directory Structure for Manual Configuration
-
-Here’s an example structure showing where to place the `runtime.ini` files:
+## Project Structure
 
 ```
-FAIRIS/
-├── Simulation/
+REALM/
+├── setup/
+│   ├── realm_install.py          # Install / uninstall script
+│   ├── add_runtime_ini.py        # Generates Webots runtime.ini files
+│   ├── requirements_webots.txt   # Core venv dependencies
+│   └── requirements_analysis.txt # Analysis venv dependencies
+│
+├── realm_tools/
+│   ├── robot_lib/
+│   │   ├── hambot.py             # Base robot class (sensors, motors, supervisor)
+│   │   ├── my_robot.py           # User extension template (inherits HamBot)
+│   │   └── robot_tools.py        # Shared robot utility functions
+│   ├── simulation_lib/
+│   │   ├── environment.py        # Maze class and environment objects
+│   │   ├── maze_parser.py        # XML maze file parser
+│   │   └── webots_torch_environment.py  # Gymnasium environment skeleton
+│   └── image_lib/
+│       ├── feature_extractor.py  # CNN feature extraction
+│       └── image_feature_lib.py  # Image processing utilities
+│
+├── simulation/
 │   ├── controllers/
-│   │   ├── Example/
-│   │   │   ├── Example.py
-│   │   │   ├── runtime.ini  # Manually created
-│   │   ├── my_controller/
-│   │   │   ├── my_controller.py
-│   │   │   ├── runtime.ini  # Manually created
-│   └── ...other Simulation files...
-├── fairis_lib/
-│   ├── __init__.py
-│   ├── rosbot_lib
-│   │   ├──__init__.py
-│   │   ├── hambot.py
-│   │   ├── my_robot.py
-│   ├── simulation_lib
-│   │   ├──__init__.py
-│   │   ├── ...other foundational modules...
-│   └── ...other foundational modules...
-├── setup.py
-└── README.md
+│   │   ├── Example/              # Example Webots controller
+│   │   └── calibration/          # Keyboard-driven calibration controller
+│   ├── protos/                   # HamBot and world object Webots protos
+│   └── worlds/                   # Webots world files and maze XMLs
+│
+├── data/
+│   └── DataCache/                # Temp files used by the display system
+│
+└── docs/                         # Figures and documentation assets
 ```
----
-
-## PyCharm Integration (Optional)
-
-FAIRIS supports PyCharm integration with Webots. Follow these steps to set it up:
-
-1. Open the FAIRIS directory as a project in PyCharm.
-2. Set the Python interpreter to the virtual environment created earlier.
-3. Ensure the project structure includes the `fairis_tools` and `fairis_lib` directories.
-
-For detailed instructions on configuring PyCharm with Webots, refer to this [guide](https://cyberbotics.com/doc/guide/using-your-ide#pycharm).
 
 ---
 
-## Testing the Setup
+## Extending for Your Project
 
-To ensure FAIRIS is set up correctly:
+The intended workflow when forking this repo for a new paper:
 
-1. Launch Webots and open the world file located at `FAIRIS/simulation/worlds/StartingWorld.wbt`.
-2. Verify that the Template controller is running, which should add walls and place the robot in a starting location.
-3. The robot should print sensor readings and move approximately 1.5 meters before stopping.
-4. Use the reset button in the Webots interface to see this process repeat.
+1. **Robot logic** — subclass `HamBot` in `my_robot.py` and add your experiment-specific methods (action sets, observation processing, etc.)
+2. **Environment** — fill in the `WebotsEnv` skeleton in `webots_torch_environment.py` with your observation space, reward function, and episode logic
+3. **Controllers** — add new Webots controllers under `simulation/controllers/` then re-run `add_runtime_ini.py`
+4. **Personal files** — your personal robot subclass (e.g. `yourname_robot.py`) can be gitignored so the template stays clean for others
 
-If everything works as expected, you’re ready to start developing your robot controllers in Webots using Python.
+---
+
+## Calibration Controller
+
+A keyboard-driven controller is provided for manually testing robot behaviour in Webots:
+
+| Key | Action |
+|---|---|
+| Arrow Up | Forward |
+| Arrow Down | Backward |
+| Arrow Left | Turn left |
+| Arrow Right | Turn right |
+| Any other key | Stop |
+
+Open `simulation/worlds/calibration.wbt` in Webots to use it.
 
 ---
 
 ## Additional Documentation
 
-- **Guide for Webots Controller Creation**: Detailed instructions for creating a new Webots Robot Controller can be 
-  found [here](simulation/controllers/README.md).
-- **`HamBot` Library Documentation**: The `HamBot` class, which provides functions to access sensors, motors, and 
-  load objects in the simulated environment, is documented [here](fairis_lib/README.md).
-
+- [Simulation Controllers README](simulation/README.md)
+- [Webots Controller Guide](https://cyberbotics.com/doc/guide/controller-programming)
+- [Gymnasium API Reference](https://gymnasium.farama.org/api/env/)
+- [Stable-Baselines3 Docs](https://stable-baselines3.readthedocs.io/)
