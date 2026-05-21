@@ -3,7 +3,7 @@ os.chdir("../../..")
 
 from realm_tools.robot_lib.hambot import HamBot
 
-VELOCITY = 5.0
+VELOCITY = 15.0
 TURN_VELOCITY = 3.0
 
 robot = HamBot()
