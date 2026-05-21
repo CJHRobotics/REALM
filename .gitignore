@@ -230,3 +230,4 @@ data/DataCache/*
 realm_tools/robot_lib/chance_robot.py
 *_venv/
 *.wbproj
+.claude
