@@ -1,9 +1,7 @@
 from realm_tools.simulation_lib.environment import Maze
 from controller import Supervisor, Display
-from matplotlib import patches
 from PIL import Image
 import math
-import operator
 
 class HamBot(Supervisor):
 

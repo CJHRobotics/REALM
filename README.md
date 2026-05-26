@@ -167,7 +167,9 @@ Open `simulation/worlds/calibration.wbt` in Webots to use it.
 
 ## Additional Documentation
 
-- [Simulation Controllers README](simulation/README.md)
+- [HamBot Reference](realm_tools/README.md)
+- [Simulation & Webots Guide](simulation/README.md)
+- [Controller Setup Guide](simulation/controllers/README.md)
 - [Webots Controller Guide](https://cyberbotics.com/doc/guide/controller-programming)
 - [Gymnasium API Reference](https://gymnasium.farama.org/api/env/)
 - [Stable-Baselines3 Docs](https://stable-baselines3.readthedocs.io/)
