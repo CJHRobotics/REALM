@@ -2,7 +2,7 @@
 
 This document explains the core Webots concepts used in REALM. Each section covers a key component of the simulator, what it does, and links to the official Webots documentation for deeper reference.
 
-For a full reference, see the [Webots Reference Manual](https://cyberbotics.com/doc/guide/building-webots).
+For a full reference, see the [Webots Reference Manual](https://cyberbotics.com/doc/reference/index).
 
 ---
 
@@ -248,12 +248,76 @@ Every solid node in Webots that participates in physics needs a `boundingObject`
 
 ---
 
+## PyCharm Setup for Running Controllers with `<extern>`
+
+When a Webots robot's controller is set to `<extern>`, Webots waits for an external process to connect — meaning you launch the controller manually from PyCharm rather than having Webots start it. This is the recommended workflow for development and debugging.
+
+For full details see the [Cyberbotics PyCharm guide](https://www.cyberbotics.com/doc/guide/using-pycharm-with-webots?version=R2019b-rev1).
+
+### 1. Set the Python Interpreter
+
+Open **PyCharm → Settings → Project → Python Interpreter** and set it to:
+
+```
+~/REALM/realm_core_venv/bin/python3
+```
+
+### 2. Add the Webots Controller Library as a Content Root
+
+PyCharm needs to know where the Webots `controller` Python package lives so it can resolve imports like `from controller import Supervisor`.
+
+1. Go to **PyCharm → Settings → Project → Project Structure**
+2. Click **Add Content Root**
+3. Add the following path:
+```
+/Applications/Webots.app/Contents/lib/controller/python
+```
+
+This allows PyCharm to index the Webots API and provide autocomplete for all Webots classes.
+
+### 3. Set Environment Variables
+
+Each run configuration needs the following environment variables so the Webots controller library can find `libController.dylib` at runtime.
+
+Go to **Run → Edit Configurations → Environment Variables** and add:
+
+```
+WEBOTS_HOME=/Applications/Webots.app
+DYLD_LIBRARY_PATH=/Applications/Webots.app/Contents/lib/controller
+PYTHONUNBUFFERED=1
+```
+
+In PyCharm's environment variable text field these are semicolon-separated:
+
+```
+WEBOTS_HOME=/Applications/Webots.app;DYLD_LIBRARY_PATH=/Applications/Webots.app/Contents/lib/controller;PYTHONUNBUFFERED=1
+```
+
+### 4. Set the Working Directory
+
+Each run configuration's **Working Directory** must be set to that controller's own directory, for example:
+
+```
+~/REALM/simulation/controllers/Calibration
+```
+
+Each controller calls `os.chdir("../../..")` at the top to navigate back to the repo root for imports — this only works correctly if the working directory starts at the controller's folder.
+
+### 5. Run the Controller
+
+1. Open the world file in Webots and ensure the HamBot controller is set to `<extern>`
+2. Start the simulation in Webots — it will pause waiting for the external controller
+3. Run your controller script from PyCharm
+4. Webots will connect and the simulation will begin
+
+---
+
 ## Useful Webots Links
 
-| Resource | Link |
-|----------|------|
-| Webots User Guide | [cyberbotics.com/doc/guide](https://cyberbotics.com/doc/guide/index) |
-| Webots Reference Manual | [cyberbotics.com/doc/reference](https://cyberbotics.com/doc/reference/index) |
+| Resource                        | Link |
+|---------------------------------|------|
+| Webots User Guide & Reference Manual            | [cyberbotics.com/doc/guide](https://cyberbotics.com/doc/guide/index) |
 | Controller Programming (Python) | [Controller Guide](https://cyberbotics.com/doc/guide/controller-programming?tab-language=python) |
-| PROTO Reference | [PROTO Nodes](https://cyberbotics.com/doc/reference/proto) |
-| Webots GitHub | [github.com/cyberbotics/webots](https://github.com/cyberbotics/webots) |
+| PyCharm + Webots Setup          | [Cyberbotics PyCharm Guide](https://www.cyberbotics.com/doc/guide/using-pycharm-with-webots?version=R2019b-rev1) |
+| PROTO Reference                 | [PROTO Nodes](https://cyberbotics.com/doc/reference/proto) |
+| Webots GitHub                   | [github.com/cyberbotics/webots](https://github.com/cyberbotics/webots) |
