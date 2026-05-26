@@ -187,7 +187,7 @@ from realm_tools.robot_lib.my_robot import MyRobot
 robot = MyRobot()
 
 # Load the environment from a maze file
-robot.load_environment('simulation/worlds/mazes/Samples/WM00.xml')
+robot.load_environment('simulation/worlds/mazes/samples/WM00.xml')
 
 # Move robot to training start position 0
 robot.move_to_start(mode='training', index=0)
