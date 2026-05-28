@@ -7,7 +7,7 @@ VELOCITY = 15.0
 TURN_VELOCITY = 3.0
 
 robot = HamBot()
-robot.load_environment('simulation/worlds/environment/samples/octagon_tags.xml')
+robot.load_environment('simulation/worlds/environments/samples/octagon_tags.xml')
 
 keyboard = robot.experiment_supervisor.getKeyboard()
 keyboard.enable(robot.timestep)
