@@ -1,0 +1,20 @@
+# REALM venv dependencies
+numpy
+scipy
+pandas
+scikit-learn
+statsmodels
+opencv-python
+matplotlib
+seaborn
+pygame
+shapely
+astar
+tqdm
+torch
+torchvision
+gymnasium
+stable-baselines3
+jupyterlab
+ipykernel
+ipywidgets
