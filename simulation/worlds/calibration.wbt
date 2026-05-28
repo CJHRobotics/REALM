@@ -35,7 +35,7 @@ TexturedBackgroundLight {
   luminosity 1.1
 }
 Floor {
-  name "Maze Floor"
+  name "Environment Floor"
   tileSize 2 2
 }
 HamBot {

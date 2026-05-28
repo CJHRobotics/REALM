@@ -36,7 +36,7 @@ TexturedBackgroundLight {
   luminosity 1.1
 }
 Floor {
-  name "Maze Floor"
+  name "Environment Floor"
   size 100 100
   tileSize 2 2
   appearance Parquetry {

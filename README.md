@@ -5,7 +5,7 @@
 The repo provides:
 - A pre-configured HamBot robot with sensors (camera, LiDAR, IMU, GPS, encoders) ready to use in Webots
 - A Gymnasium-compatible environment skeleton for RL training with Stable-Baselines3 or PyTorch
-- Maze/environment loading and management tools
+- Environment/environment loading and management tools
 - Two isolated Python environments — one for simulation/training, one for data analysis
 - A calibration controller for manually driving the robot with keyboard controls
 
@@ -116,7 +116,7 @@ REALM/
 │   │   ├── my_robot.py           # User extension template (inherits HamBot)
 │   │   └── robot_tools.py        # Shared robot utility functions
 │   ├── simulation_lib/
-│   │   ├── environment.py        # Maze class and environment objects
+│   │   ├── environment.py        # Environment class and environment objects
 │   │   ├── maze_parser.py        # XML maze file parser
 │   │   └── webots_torch_environment.py  # Gymnasium environment skeleton
 │   └── image_lib/

@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from matplotlib import collections as pycol
 from matplotlib import patches
 
-from realm_tools.simulation_lib.maze_parser import parse_maze
+from realm_tools.simulation_lib.environment_parser import parse_environment
 
 
 class RandomStartPositionGenerator:
@@ -25,33 +25,8 @@ class RandomStartPositionGenerator:
         self.used_positions.append(position)
         return position
 
-
-def make_maze_plot_with_pc(display_width, display_height, maze_file="simulation/worlds/mazes/Experiment1/WM00.xml"):
-    maze = Maze(maze_file)
-
-    fig, axs = plt.subplots(figsize=(display_width / 100, display_height / 100))
-
-    axs.add_collection(pycol.LineCollection(maze.walls, linewidths=2))
-
-    for point in maze.training_starting_location:
-        new_crc = patches.Circle((point.x, point.y), radius=.05, color='green')
-        axs.add_patch(new_crc)
-    for point in maze.testing_start_location:
-        new_crc = patches.Circle((point.x, point.y), radius=.05, color='blue')
-        axs.add_patch(new_crc)
-    for point in maze.goal_locations:
-        new_crc = patches.Circle((point.x, point.y), radius=.05, color='red')
-        axs.add_patch(new_crc)
-
-    axs.set_ylim(-4.25, 4.25)
-    axs.set_xlim(-4.25, 4.25)
-    axs.margins(0.1)
-
-    return fig, axs
-
-
-class Maze:
-    def __init__(self, maze_file, display_width=1000, display_height=1000):
+class Environment:
+    def __init__(self, environment_file, display_width=1000, display_height=1000):
 
         self.length = 0
         self.width = 0
@@ -64,7 +39,7 @@ class Maze:
         self.cylinder_landmarks = []
         self.tag_landmarks = []
 
-        walls, goals, train_start_positions, test_start_positions, cylinder_landmarks, tag_landmarks = parse_maze(maze_file)
+        walls, goals, train_start_positions, test_start_positions, cylinder_landmarks, tag_landmarks = parse_environment(environment_file)
         for index, row in walls.iterrows():
             if index <= 3:
                 self.boundary_walls.append(BoundaryWall(row['x1'], row['y1'], row['x2'], row['y2'], width=row['width'], id=index))
@@ -93,35 +68,35 @@ class Maze:
                                                   row['width'],
                                                   color=[row['red'], row['green'], row['blue']]))
 
-        self.make_maze_plot(display_width, display_height)
+        self.make_environment_plot(display_width, display_height)
 
         self.random_training_start_position_generator = RandomStartPositionGenerator(
             self.training_starting_location)
         self.random_testing_starting_position_generator = RandomStartPositionGenerator(
             self.testing_start_location)
 
-    def make_maze_plot(self, display_width, display_height):
+    def make_environment_plot(self, display_width, display_height):
 
-        self.maze_figure, self.maze_figure_ax = plt.subplots(1, 1, figsize=(display_width / 100, display_height / 100))
+        self.environment_figure, self.environment_figure_ax = plt.subplots(1, 1, figsize=(display_width / 100, display_height / 100))
 
-        self.maze_figure_ax.add_collection(pycol.LineCollection(self.walls, linewidths=2))
+        self.environment_figure_ax.add_collection(pycol.LineCollection(self.walls, linewidths=2))
 
         for point in self.training_starting_location:
             new_crc = patches.Circle((point.x, point.y), radius=.05, color='green')
-            self.maze_figure_ax.add_patch(new_crc)
+            self.environment_figure_ax.add_patch(new_crc)
         for point in self.testing_start_location:
             new_crc = patches.Circle((point.x, point.y), radius=.05, color='blue')
-            self.maze_figure_ax.add_patch(new_crc)
+            self.environment_figure_ax.add_patch(new_crc)
         for point in self.goal_locations:
             new_crc = patches.Circle((point.x, point.y), radius=.05, color='red')
-            self.maze_figure_ax.add_patch(new_crc)
+            self.environment_figure_ax.add_patch(new_crc)
 
-        self.maze_figure_ax.set_ylim(-4.25, 4.25)
-        self.maze_figure_ax.set_xlim(-4.25, 4.25)
-        self.maze_figure_ax.margins(0.1)
+        self.environment_figure_ax.set_ylim(-4.25, 4.25)
+        self.environment_figure_ax.set_xlim(-4.25, 4.25)
+        self.environment_figure_ax.margins(0.1)
 
-    def close_maze_figure(self):
-        plt.close(self.maze_figure)
+    def close_environment_figure(self):
+        plt.close(self.environment_figure)
 
     # Returns random training starting positions
     def get_random_training_starting_position(self):
@@ -130,15 +105,15 @@ class Maze:
     def get_random_testing_starting_position(self):
         return self.random_testing_starting_position_generator.get_random_start_position()
 
-    # Creates a matplotlib plot of the maze
-    def get_maze_figure(self):
-        return self.maze_figure, self.maze_figure_ax
+    # Creates a matplotlib plot of the environment
+    def get_environment_figure(self):
+        return self.environment_figure, self.environment_figure_ax
 
     def get_goal_location(self):
         return self.goal_locations[0].x, self.goal_locations[0].y
 
 
-class MazePoint:
+class EnvironmentPoint:
     def __init__(self, x, y):
         self.x = x
         self.y = y
@@ -147,13 +122,13 @@ class MazePoint:
         return math.dist((self.x, self.y), (robot_position[0], robot_position[1])) - robot_position[2]
 
 
-class Goal(MazePoint):
+class Goal(EnvironmentPoint):
     def __init__(self, x, y, id):
         super().__init__(x, y)
         self.goal_id = id
 
 
-class StartingPosition(MazePoint):
+class StartingPosition(EnvironmentPoint):
     def __init__(self, x, y, theta):
         super().__init__(x, y)
         self.theta = theta
@@ -161,14 +136,14 @@ class StartingPosition(MazePoint):
 
 class BoundaryWall:
     def __init__(self, x1, y1, x2, y2, height=0.3, width=0.012, id=0):
-        self.end_point1 = MazePoint(x1, y1)
-        self.end_point2 = MazePoint(x2, y2)
+        self.end_point1 = EnvironmentPoint(x1, y1)
+        self.end_point2 = EnvironmentPoint(x2, y2)
         self.height = height
         self.width = width
         self.length = math.dist((x1, y1), (x2, y2))
         self.id = id
-        self.center_mass = MazePoint((self.end_point1.x + self.end_point2.x) / 2,
-                                     (self.end_point1.y + self.end_point2.y) / 2)
+        self.center_mass = EnvironmentPoint((self.end_point1.x + self.end_point2.x) / 2,
+                                            (self.end_point1.y + self.end_point2.y) / 2)
         self.dimensions = [self.width, self.length, self.height]
         self.translation = [(self.end_point1.x + self.end_point2.x) / 2,
                             (self.end_point1.y + self.end_point2.y) / 2,
@@ -197,14 +172,14 @@ class BoundaryWall:
 
 class Obstacle:
     def __init__(self, x1, y1, x2, y2, height=0.3, width=0.012, id=0):
-        self.end_point1 = MazePoint(x1, y1)
-        self.end_point2 = MazePoint(x2, y2)
+        self.end_point1 = EnvironmentPoint(x1, y1)
+        self.end_point2 = EnvironmentPoint(x2, y2)
         self.height = height
         self.width = width
         self.length = math.dist((x1, y1), (x2, y2))
         self.id = id
-        self.center_mass = MazePoint((self.end_point1.x + self.end_point2.x) / 2,
-                                     (self.end_point1.y + self.end_point2.y) / 2)
+        self.center_mass = EnvironmentPoint((self.end_point1.x + self.end_point2.x) / 2,
+                                            (self.end_point1.y + self.end_point2.y) / 2)
         self.dimensions = [self.width, self.length, self.height]
         self.translation = [(self.end_point1.x + self.end_point2.x) / 2,
                             (self.end_point1.y + self.end_point2.y) / 2,

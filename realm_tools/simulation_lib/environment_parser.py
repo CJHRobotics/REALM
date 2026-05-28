@@ -117,7 +117,7 @@ def parse_all_positions(xml_positions):
     return pd.concat(valid_data_frames, ignore_index=True)
 
 
-def parse_maze(file):
+def parse_environment(file):
     root = ET.parse(file).getroot()
     training_start_positions = parse_all_positions(root.find('TrainStartPositions'))
     testing_start_positions = parse_all_positions(root.find('TestStartPositions'))
@@ -128,15 +128,3 @@ def parse_maze(file):
 
     return walls, goals, training_start_positions, testing_start_positions, cylinder_landmarks, tag_landmarks
 
-
-def parse_maze_for_wavefront(file):
-    root = ET.parse(file).getroot()
-    training_start_positions = parse_all_positions(root.find('TrainStartPositions'))
-    testing_start_positions = parse_all_positions(root.find('TestStartPositions'))
-    starting_positions = pd.concat([training_start_positions, testing_start_positions])
-    walls = parse_all_obsticles(root)
-    goals = parse_all_goals(root)
-    cylinder_landmarks = parse_all_cylinder_landmarks(root)
-    tag_landmarks = parse_all_tag_landmarks(root)
-
-    return walls, goals, starting_positions

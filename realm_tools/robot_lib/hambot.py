@@ -1,4 +1,4 @@
-from realm_tools.simulation_lib.environment import Maze
+from realm_tools.simulation_lib.environment import Environment
 from controller import Supervisor, Display
 from PIL import Image
 import math
@@ -146,10 +146,10 @@ class HamBot(Supervisor):
 
     # Takes in a xml maze file and creates the walls, starting locations, and goal locations
     def load_environment(self, maze_file,display =False):
-        self.maze = Maze(maze_file, display_width=self.robot_display.getWidth(),
-                         display_height=self.robot_display.getHeight())
+        self.maze = Environment(maze_file, display_width=self.robot_display.getWidth(),
+                                display_height=self.robot_display.getHeight())
         if display:
-            self.maze_figure, self.maze_figure_ax = self.maze.get_maze_figure()
+            self.maze_figure, self.maze_figure_ax = self.maze.get_environment_figure()
             self.maze_figure.savefig('data/DataCache/maze.png')
             self.update_robot_display(name='maze')
 
@@ -176,7 +176,7 @@ class HamBot(Supervisor):
         total_nodes = len(self.obstical_nodes) + len(self.boundry_wall_nodes) + len(self.landmark_nodes)
         for i in range(total_nodes):
             self.children_field.removeMF(-1)
-        self.maze.close_maze_figure()
+        self.maze.close_environment_figure()
         self.sensor_calibration()
 
     # Teleports the robot to the point (x,y,z)
