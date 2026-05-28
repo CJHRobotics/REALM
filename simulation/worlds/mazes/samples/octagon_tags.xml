@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="us-ascii"?>
+
+<world>
+	<wall x1="2.61" y1="1.85" x2="1.85" y2="0.00" />
+	<wall x1="1.85" y1="2.61" x2="0.00" y2="1.85" />
+	<wall x1="0.00" y1="1.85" x2="-1.85" y2="2.61" />
+	<wall x1="-1.85" y1="0.00" x2="-2.61" y2="1.85" />
+	<wall x1="-2.61" y1="0.00" x2="-1.85" y2="-1.85" />
+	<wall x1="-1.85" y1="-1.85" x2="-0.00" y2="-2.61" />
+	<wall x1="-0.00" y1="-2.61" x2="1.85" y2="-1.85" />
+	<wall x1="1.85" y1="-1.85" x2="2.61" y2="0.00" />
+
+	<tag_landmark x="2.23" y="0.93" theta="-2.749" tag_id="0" height="1.0" width="1.0" red="1.00" green="0.00" blue="0.00" />
+	<tag_landmark x="0.93" y="2.23" theta="-1.963" tag_id="1" height="1.0" width="1.0" red="0.00" green="1.00" blue="0.00" />
+	<tag_landmark x="-0.93" y="2.23" theta="-1.178" tag_id="2" height="1.0" width="1.0" red="0.00" green="0.00" blue="1.00" />
+	<tag_landmark x="-2.23" y="0.93" theta="-0.393" tag_id="3" height="1.0" width="1.0" red="1.00" green="1.00" blue="0.00" />
+	<tag_landmark x="-2.23" y="-0.93" theta="0.393" tag_id="4" height="1.0" width="1.0" red="0.00" green="1.00" blue="1.00" />
+	<tag_landmark x="-0.93" y="-2.23" theta="1.178" tag_id="5" height="1.0" width="1.0" red="1.00" green="0.50" blue="0.00" />
+	<tag_landmark x="0.93" y="-2.23" theta="1.963" tag_id="6" height="1.0" width="1.0" red="0.50" green="0.00" blue="0.50" />
+
+    <TestStartPositions>
+		<pos x="-1.5" y="0.00" theta="0.0" />
+	</TestStartPositions>
+
+	<TrainStartPositions>
+		<pos x="-1.5" y="0.00" theta="0.0" />
+	</TrainStartPositions>
+
+	<goal id="1" x="0.0" y="0.0" />
+
+
+</world>
