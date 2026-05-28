@@ -5,7 +5,7 @@ os.chdir("../../..")
 from realm_tools.robot_lib.hambot import HamBot
 
 
-maze_file = 'simulation/worlds/mazes/samples/calibration.xml'
+maze_file = 'simulation/worlds/mazes/samples/example.xml'
 
 # create the robot/supervisor instance.
 robot = HamBot()
