@@ -17,9 +17,9 @@ def add_runtime_ini_to_dirs(controllers_dir, python_venv_path):
 def main():
     project_path = os.getcwd()
     if platform.system() == 'Windows':
-        python_venv_path = os.path.join(project_path, "realm_core_venv", "Scripts", "python.exe")
+        python_venv_path = os.path.join(project_path, "realm_venv", "Scripts", "python.exe")
     else:
-        python_venv_path = os.path.join(project_path, "realm_core_venv", "bin", "python3")
+        python_venv_path = os.path.join(project_path, "realm_venv", "bin", "python3")
     controllers_dir = os.path.join(project_path, "Simulation", "controllers")
 
     add_runtime_ini_to_dirs(controllers_dir, python_venv_path)

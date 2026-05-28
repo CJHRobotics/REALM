@@ -259,7 +259,7 @@ For full details see the [Cyberbotics PyCharm guide](https://www.cyberbotics.com
 Open **PyCharm → Settings → Project → Python Interpreter** and set it to:
 
 ```
-~/REALM/realm_core_venv/bin/python3
+~/REALM/realm_venv/bin/python3
 ```
 
 ### 2. Add the Webots Controller Library as a Content Root

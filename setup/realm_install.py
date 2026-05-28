@@ -96,44 +96,29 @@ def run_runtime_ini_setup():
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Install or uninstall REALM virtual environments.")
-    parser.add_argument("--data_analysis", action="store_true",
-                        help="Include the realm_analysis_venv for data analysis.")
+    parser = argparse.ArgumentParser(description="Install or uninstall the REALM virtual environment.")
     parser.add_argument("--uninstall", action="store_true",
-                        help="Remove virtual environments instead of creating them.")
+                        help="Remove the virtual environment instead of creating it.")
     args = parser.parse_args()
 
     project_path = os.getcwd()
 
     if args.uninstall:
-        print("Uninstalling REALM virtual environments...")
-        remove_venv("realm_core_venv")
-        if args.data_analysis:
-            remove_venv("realm_analysis_venv")
+        print("Uninstalling REALM virtual environment...")
+        remove_venv("realm_venv")
         print("\nUninstall complete.")
         return
 
     print(f"Project path: {project_path}")
     python_executable = find_python_version()
 
-    # Always build core venv
-    create_venv(python_executable, "realm_core_venv")
-    install_requirements("realm_core_venv", os.path.join(SETUP_DIR, "requirements_webots.txt"))
-    add_project_to_path("realm_core_venv", project_path)
+    create_venv(python_executable, "realm_venv")
+    install_requirements("realm_venv", os.path.join(SETUP_DIR, "requirements.txt"))
+    add_project_to_path("realm_venv", project_path)
     run_runtime_ini_setup()
 
-    # Optionally build analysis venv
-    if args.data_analysis:
-        create_venv(python_executable, "realm_analysis_venv")
-        install_requirements("realm_analysis_venv", os.path.join(SETUP_DIR, "requirements_analysis.txt"))
-        add_project_to_path("realm_analysis_venv", project_path)
-
     print("\nSetup complete.")
-    if args.data_analysis:
-        print("  Environments created: realm_core_venv, realm_analysis_venv")
-    else:
-        print("  Environment created: realm_core_venv")
-        print("  Run with --data_analysis to also create realm_analysis_venv.")
+    print("  Environment created: realm_venv")
 
 
 if __name__ == "__main__":
