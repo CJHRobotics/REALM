@@ -77,8 +77,11 @@ def parse_all_cylinder_landmarks(xml_root):
     return pd.concat(cylinder_landmark_dataframes, ignore_index=True)
 
 def parse_tag_landmark(xml_cylinder_landmark):
-    data = [[float(xml_cylinder_landmark.get(data)) for data in ['x', 'y', 'theta', 'tag_id', 'height', 'width', 'red', 'green', 'blue']]]
-    return pd.DataFrame(data=data, columns=['x', 'y', 'theta', 'tag_id', 'height', 'width', 'red', 'green', 'blue'])
+    float_fields = ['x', 'y', 'theta', 'height', 'width', 'red', 'green', 'blue']
+    row = {f: float(xml_cylinder_landmark.get(f)) for f in float_fields}
+    row['tag_id'] = xml_cylinder_landmark.get('tag_id')
+    cols = ['x', 'y', 'theta', 'tag_id', 'height', 'width', 'red', 'green', 'blue']
+    return pd.DataFrame(data=[[row[c] for c in cols]], columns=cols)
 
 def parse_all_tag_landmarks(xml_root):
     # Create a list of DataFrames for each landmark
