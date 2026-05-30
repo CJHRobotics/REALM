@@ -37,7 +37,7 @@
 
     <!-- Panel landmark: flag -->
     <landmark type="panel" x=" 0.00" y="-2.50" theta=" 1.571" height="1.0" width="1.0"
-              texture="../protos/world_objects/textures/flags/landmark_tag_f0.png"
+              texture="../protos/world_objects/textures/flags/flag_0.png"
               red="0.00" green="0.00" blue="1.00"/>
 
     <train_start_positions>
