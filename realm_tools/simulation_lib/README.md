@@ -137,7 +137,7 @@ Each candidate point is accepted if it is:
 ### Command line
 
 ```bash
-# Basic — output written alongside the XML as octagon_train_points.csv
+# Basic — output written alongside the XML as octagon_positions.csv
 python -m realm_tools.simulation_lib.start_position_generator \
     simulation/worlds/environments/samples/octagon.xml
 
@@ -146,7 +146,7 @@ python -m realm_tools.simulation_lib.start_position_generator \
     simulation/worlds/environments/samples/octagon.xml \
     --spacing 0.1 \
     --clearance 0.2 \
-    --output simulation/worlds/environments/samples/octagon_train_points.csv
+    --output simulation/worlds/environments/samples/positions/octagon_positions.csv
 
 # Save a coverage plot to data/data_cache/octagon_grid.png
 python -m realm_tools.simulation_lib.start_position_generator \
@@ -163,7 +163,7 @@ df = generate_grid(
     xml_path='simulation/worlds/environments/samples/octagon.xml',
     spacing=0.1,
     wall_clearance=0.2,
-    output='simulation/worlds/environments/samples/octagon_train_points.csv',
+    output='simulation/worlds/environments/samples/positions/octagon_positions.csv',
     plot=True,
 )
 # df → pd.DataFrame with columns: x, y, theta
@@ -174,7 +174,7 @@ df = generate_grid(
 ```python
 import pandas as pd
 
-points = pd.read_csv('simulation/worlds/environments/vpce/LM8_train_points.csv')
+points = pd.read_csv('simulation/worlds/environments/vpce/positions/LM8_positions.csv')
 for _, row in points.iterrows():
     robot.teleport_robot(x=row.x, y=row.y, theta=row.theta)
 ```

@@ -30,7 +30,7 @@ Usage — from Python
         'simulation/worlds/environments/vpce/LMO8.xml',
         spacing=0.1,
         wall_clearance=0.2,
-        output='simulation/worlds/environments/vpce/LMO8_train_points.csv',
+        output='simulation/worlds/environments/vpce/LMO8_positions.csv',
         plot=True,
     )
 
@@ -39,7 +39,7 @@ Usage — from the command line
     python -m realm_tools.simulation_lib.start_position_generator \\
         simulation/worlds/environments/vpce/LMO8.xml \\
         --spacing 0.1 --clearance 0.2 --theta 0.0 \\
-        --output simulation/worlds/environments/vpce/LMO8_train_points.csv \\
+        --output simulation/worlds/environments/vpce/LMO8_positions.csv \\
         --plot
 """
 
@@ -225,7 +225,7 @@ def _build_parser():
         description=(
             "Generate a CSV of valid robot start positions for a REALM maze XML.\n\n"
             "If --output is omitted the file is written alongside the XML as "
-            "<maze>_train_points.csv."
+            "<maze>_positions.csv."
         ),
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
@@ -240,7 +240,7 @@ def _build_parser():
                    help='Robot heading for all positions in radians (default: 0.0).')
     p.add_argument('--output', '-o', default=None,
                    help='Output CSV path.  Defaults to <maze>_train_points.csv '
-                        'alongside the input XML.')
+                        'alongside the input XML as <maze>_positions.csv.')
     p.add_argument('--plot', action='store_true', default=False,
                    help='Save a coverage plot to data/data_cache/<maze>_grid.png.')
     return p
@@ -251,7 +251,9 @@ if __name__ == '__main__':
 
     output = args.output
     if output is None:
-        output = os.path.splitext(args.xml)[0] + '_train_points.csv'
+        xml_dir   = os.path.dirname(args.xml)
+        maze_name = os.path.splitext(os.path.basename(args.xml))[0]
+        output    = os.path.join(xml_dir, 'positions', maze_name + '_positions.csv')
 
     generate_grid(
         xml_path=args.xml,

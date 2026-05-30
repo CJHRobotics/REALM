@@ -217,9 +217,12 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
-# REALM Spacifics
+# REALM Specifics
 !data/data_cache/default.png
 data/data_cache/*
+
+# Generated position grids — run start_position_generator.py to recreate
+simulation/worlds/environments/**/positions/
 !simulation/controllers/Calibration/
 !simulation/controllers/Example/
 *.ini
