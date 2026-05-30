@@ -150,7 +150,7 @@ class HamBot(Supervisor):
                                 display_height=self.robot_display.getHeight())
         if display:
             self.maze_figure, self.maze_figure_ax = self.maze.get_environment_figure()
-            self.maze_figure.savefig('data/DataCache/maze.png')
+            self.maze_figure.savefig('data/data_cache/maze.png')
             self.update_robot_display(name='maze')
 
         self.environment_nodes = []
@@ -213,7 +213,7 @@ class HamBot(Supervisor):
     def update_robot_display(self, name='default'):
         display_width = self.robot_display.getWidth()
         display_height = self.robot_display.getHeight()
-        img = Image.open('data/DataCache/' + name + '.png').convert('RGB')
+        img = Image.open('data/data_cache/' + name + '.png').convert('RGB')
         img = img.resize((display_width, display_height))
         data = img.tobytes()
         while self.experiment_supervisor.step(self.timestep) != -1:
