@@ -1,6 +1,6 @@
 #VRML_SIM R2025a utf8
 
-PROTO HamBot [
+PROTO hambot [
   field SFVec3f     translation     0 0 0
   field SFRotation  rotation        0 0 1 1.57
   field SFString    name            "HamBot"
@@ -38,7 +38,7 @@ PROTO HamBot [
               metalness 0.9
             }
             geometry Mesh {
-              url ["models/HamBot/BlackMetalNoShadow.obj"]
+              url ["meshes/black_metal_no_shadow.obj"]
             }
             castShadows FALSE
           }
@@ -51,7 +51,7 @@ PROTO HamBot [
               metalness 1.0
             }
             geometry Mesh {
-              url ["models/HamBot/MetalSilverNoShadow.obj"]
+              url ["meshes/metal_silver_no_shadow.obj"]
             }
             castShadows FALSE
           }
@@ -64,7 +64,7 @@ PROTO HamBot [
               metalness 0.0
             }
             geometry Mesh {
-              url ["models/HamBot/PlasticBlackMatteNoShadow.obj"]
+              url ["meshes/plastic_black_matte_no_shadow.obj"]
             }
             castShadows FALSE
           }
@@ -77,7 +77,7 @@ PROTO HamBot [
               metalness 0.0
             }
             geometry Mesh {
-              url ["models/HamBot/PlasticWhiteMatte.obj"]
+              url ["meshes/plastic_white_matte.obj"]
             }
             castShadows FALSE
           }
@@ -90,7 +90,7 @@ PROTO HamBot [
               metalness 0.0
             }
             geometry Mesh {
-              url ["models/HamBot/BluePCBNoShadow.obj"]
+              url ["meshes/blue_pcb_no_shadow.obj"]
             }
             castShadows FALSE
           }
@@ -103,7 +103,7 @@ PROTO HamBot [
               metalness 0.0
             }
             geometry Mesh {
-              url ["models/HamBot/PlasticBlackMatte.obj"]
+              url ["meshes/plastic_black_matte.obj"]
             }
             castShadows TRUE
           }
@@ -116,7 +116,7 @@ PROTO HamBot [
               metalness 0.1
             }
             geometry Mesh {
-              url ["models/HamBot/PlasticBlackGloss.obj"]
+              url ["meshes/plastic_black_gloss.obj"]
             }
             castShadows TRUE
           }
@@ -129,7 +129,7 @@ PROTO HamBot [
               metalness 0.0
             }
             geometry Mesh {
-              url ["models/HamBot/PlasticGreen.obj"]
+              url ["meshes/plastic_green.obj"]
             }
             castShadows TRUE
           }
@@ -142,7 +142,7 @@ PROTO HamBot [
               metalness 0.0
             }
             geometry Mesh {
-              url ["models/HamBot/GreenPCB.obj"]
+              url ["meshes/green_pcb.obj"]
             }
             castShadows TRUE
           }
@@ -155,7 +155,7 @@ PROTO HamBot [
               metalness 1.0
             }
             geometry Mesh {
-              url ["models/HamBot/Brass.obj"]
+              url ["meshes/brass.obj"]
             }
             castShadows TRUE
           }
@@ -168,7 +168,7 @@ PROTO HamBot [
               metalness 0.0
             }
             geometry Mesh {
-              url ["models/HamBot/RedPCB.obj"]
+              url ["meshes/red_pcb.obj"]
             }
             castShadows TRUE
           }
@@ -182,7 +182,7 @@ PROTO HamBot [
               transparency 0.5
             }
             geometry Mesh {
-              url ["models/HamBot/GlassBlue.obj"]
+              url ["meshes/glass_blue.obj"]
             }
             castShadows FALSE
           }
@@ -195,7 +195,7 @@ PROTO HamBot [
               metalness 1.0
             }
             geometry Mesh {
-              url ["models/HamBot/MetalSilver.obj"]
+              url ["meshes/metal_silver.obj"]
             }
             castShadows TRUE
           }
@@ -234,7 +234,7 @@ PROTO HamBot [
                     roughness 0.7
                   }
                   geometry Mesh {
-                    url ["models/HamBot/Wheel.obj"]
+                    url ["meshes/wheel.obj"]
                   }
                 }
               ]
@@ -288,7 +288,7 @@ PROTO HamBot [
                     roughness 0.7
                   }
                   geometry Mesh {
-                    url ["models/HamBot/Wheel.obj"]
+                    url ["meshes/wheel.obj"]
                   }
                 }
               ]

@@ -3,11 +3,12 @@
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/floors/protos/Floor.proto"
-IMPORTABLE EXTERNPROTO "../protos/WorldObjects/Landmark.proto"
-IMPORTABLE EXTERNPROTO "../protos/WorldObjects/Obstacle.proto"
-IMPORTABLE EXTERNPROTO "../protos/HamBot/HamBot.proto"
 IMPORTABLE EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/traffic/protos/RectangularPanel.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/appearances/protos/Parquetry.proto"
+IMPORTABLE EXTERNPROTO "../protos/world_objects/objects/landmark.proto"
+IMPORTABLE EXTERNPROTO "../protos/world_objects/objects/wall.proto"
+EXTERNPROTO "../protos/robots/hambot/hambot.proto"
+
 
 WorldInfo {
   ERP 1
@@ -43,6 +44,6 @@ Floor {
     type "light strip"
   }
 }
-HamBot {
+hambot {
   translation 0 0 0.09
 }

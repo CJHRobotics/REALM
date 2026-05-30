@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    test_all.xml — one of every object type for testing environment loading.
+
+    Boundary walls:     4 walls forming a square enclosure
+    Obstacle wall:      1 internal wall, default texture
+    Obstacle wall:      1 internal wall, custom texture
+    Cylinder landmark:  1 colored cylinder
+    Panel landmark:     1 april tag panel
+    Panel landmark:     1 flag panel
+-->
+
+<environment>
+
+    <!-- Boundary walls (default texture) -->
+    <wall x1="-3.00" y1=" 3.00" x2=" 3.00" y2=" 3.00" type="boundary" height="0.5" width="0.012"/>
+    <wall x1=" 3.00" y1=" 3.00" x2=" 3.00" y2="-3.00" type="boundary" height="0.5" width="0.012"/>
+    <wall x1=" 3.00" y1="-3.00" x2="-3.00" y2="-3.00" type="boundary" height="0.5" width="0.012"/>
+    <wall x1="-3.00" y1="-3.00" x2="-3.00" y2=" 3.00" type="boundary" height="0.5" width="0.012"/>
+
+    <!-- Obstacle wall: default texture -->
+    <wall x1="-1.00" y1=" 1.00" x2=" 1.00" y2=" 1.00" type="obstacle" height="0.5" width="0.012"/>
+
+    <!-- Obstacle wall: custom texture amd custom size -->
+    <wall x1="-1.00" y1="-1.00" x2=" 1.00" y2="-1.00" type="obstacle" height="1.5" width="0.2"
+          texture="../protos/world_objects/textures/wall_textures/white_marble.png"/>
+
+    <!-- Cylinder landmark -->
+    <landmark type="cylinder" x="-2.00" y="0.00" height="1.5" radius="0.25"
+              red="1.00" green="0.00" blue="0.00"/>
+
+    <!-- Panel landmark: april tag -->
+    <landmark type="panel" x=" 0.00" y=" 2.50" theta="-1.571" height="1.0" width="1.0"
+              texture="../protos/world_objects/textures/april_tags/landmark_tag_0.png"
+              red="0.00" green="1.00" blue="0.00"/>
+
+    <!-- Panel landmark: flag -->
+    <landmark type="panel" x=" 0.00" y="-2.50" theta=" 1.571" height="1.0" width="1.0"
+              texture="../protos/world_objects/textures/flags/landmark_tag_f0.png"
+              red="0.00" green="0.00" blue="1.00"/>
+
+    <train_start_positions>
+        <pos x="-2.0" y="-2.0" theta="0.785"/>
+        <pos x=" 2.0" y="-2.0" theta="2.356"/>
+    </train_start_positions>
+
+    <test_start_positions>
+        <pos x="0.0" y="-2.0" theta="1.571"/>
+    </test_start_positions>
+
+    <goal id="0" x="2.0" y="2.0"/>
+
+</environment>

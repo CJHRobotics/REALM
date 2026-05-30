@@ -16,81 +16,63 @@ class RandomStartPositionGenerator:
 
     def get_random_start_position(self):
         if not self.starting_positions:
-            # All starting positions have been used once, reset the list.
             self.starting_positions.extend(self.used_positions)
             self.used_positions.clear()
-
-        position = random.choice(self.starting_positions)
+        position = random.choice(list(self.starting_positions))
         self.starting_positions.remove(position)
         self.used_positions.append(position)
         return position
 
+
 class Environment:
     def __init__(self, environment_file, display_width=1000, display_height=1000):
-
-        self.length = 0
-        self.width = 0
         self.boundary_walls = []
+        self.obstacles = []
+        self.landmarks = []
         self.training_starting_location = []
         self.testing_start_location = []
         self.goal_locations = []
-        self.obstacles = []
-        self.walls = []
-        self.cylinder_landmarks = []
-        self.tag_landmarks = []
+        self._wall_lines = []
 
-        walls, goals, train_start_positions, test_start_positions, cylinder_landmarks, tag_landmarks = parse_environment(environment_file)
-        for index, row in walls.iterrows():
-            if index <= 3:
-                self.boundary_walls.append(BoundaryWall(row['x1'], row['y1'], row['x2'], row['y2'], width=row['width'], id=index))
+        walls, landmarks, goals, train_starts, test_starts = parse_environment(environment_file)
+
+        for i, w in enumerate(walls):
+            wall = Wall(w['x1'], w['y1'], w['x2'], w['y2'],
+                        height=w['height'], width=w['width'],
+                        wall_type=w['wall_type'], texture=w['texture'], id=i)
+            if w['wall_type'] == 'boundary':
+                self.boundary_walls.append(wall)
             else:
-                self.obstacles.append(Obstacle(row['x1'], row['y1'], row['x2'], row['y2'], width=row['width'], id=index - 4))
-            self.walls.append([(row['x1'], row['y1']), (row['x2'], row['y2'])])
+                self.obstacles.append(wall)
+            self._wall_lines.append([(w['x1'], w['y1']), (w['x2'], w['y2'])])
 
-        for index, row in train_start_positions.iterrows():
-            self.training_starting_location.append(StartingPosition(row['x'], row['y'], row['theta']))
+        for i, lm in enumerate(landmarks):
+            self.landmarks.append(Landmark(lm, id=i))
 
-        for index, row in test_start_positions.iterrows():
-            self.testing_start_location.append(StartingPosition(row['x'], row['y'], row['theta']))
+        for p in train_starts:
+            self.training_starting_location.append(StartingPosition(p['x'], p['y'], p['theta']))
 
-        for index, row in goals.iterrows():
-            self.goal_locations.append(Goal(row['x'], row['y'], row['id']))
+        for p in test_starts:
+            self.testing_start_location.append(StartingPosition(p['x'], p['y'], p['theta']))
 
-        for index, row in cylinder_landmarks.iterrows():
-            self.cylinder_landmarks.append(CylinderLandmark(row['x'], row['y'], color=[row['red'], row['green'], row['blue']], id=index))
-
-        for index, row in tag_landmarks.iterrows():
-            self.tag_landmarks.append(TagLandmark(row['x'],
-                                                  row['y'],
-                                                  row['theta'],
-                                                  row['tag_id'],
-                                                  row['height'],
-                                                  row['width'],
-                                                  color=[row['red'], row['green'], row['blue']]))
+        for g in goals:
+            self.goal_locations.append(Goal(g['x'], g['y'], g['id']))
 
         self.make_environment_plot(display_width, display_height)
 
-        self.random_training_start_position_generator = RandomStartPositionGenerator(
-            self.training_starting_location)
-        self.random_testing_starting_position_generator = RandomStartPositionGenerator(
-            self.testing_start_location)
+        self.random_training_start_position_generator = RandomStartPositionGenerator(self.training_starting_location)
+        self.random_testing_starting_position_generator = RandomStartPositionGenerator(self.testing_start_location)
 
     def make_environment_plot(self, display_width, display_height):
-
-        self.environment_figure, self.environment_figure_ax = plt.subplots(1, 1, figsize=(display_width / 100, display_height / 100))
-
-        self.environment_figure_ax.add_collection(pycol.LineCollection(self.walls, linewidths=2))
-
-        for point in self.training_starting_location:
-            new_crc = patches.Circle((point.x, point.y), radius=.05, color='green')
-            self.environment_figure_ax.add_patch(new_crc)
-        for point in self.testing_start_location:
-            new_crc = patches.Circle((point.x, point.y), radius=.05, color='blue')
-            self.environment_figure_ax.add_patch(new_crc)
-        for point in self.goal_locations:
-            new_crc = patches.Circle((point.x, point.y), radius=.05, color='red')
-            self.environment_figure_ax.add_patch(new_crc)
-
+        self.environment_figure, self.environment_figure_ax = plt.subplots(
+            1, 1, figsize=(display_width / 100, display_height / 100))
+        self.environment_figure_ax.add_collection(pycol.LineCollection(self._wall_lines, linewidths=2))
+        for p in self.training_starting_location:
+            self.environment_figure_ax.add_patch(patches.Circle((p.x, p.y), radius=0.05, color='green'))
+        for p in self.testing_start_location:
+            self.environment_figure_ax.add_patch(patches.Circle((p.x, p.y), radius=0.05, color='blue'))
+        for g in self.goal_locations:
+            self.environment_figure_ax.add_patch(patches.Circle((g.x, g.y), radius=0.05, color='red'))
         self.environment_figure_ax.set_ylim(-4.25, 4.25)
         self.environment_figure_ax.set_xlim(-4.25, 4.25)
         self.environment_figure_ax.margins(0.1)
@@ -98,14 +80,12 @@ class Environment:
     def close_environment_figure(self):
         plt.close(self.environment_figure)
 
-    # Returns random training starting positions
     def get_random_training_starting_position(self):
         return self.random_training_start_position_generator.get_random_start_position()
 
     def get_random_testing_starting_position(self):
         return self.random_testing_starting_position_generator.get_random_start_position()
 
-    # Creates a matplotlib plot of the environment
     def get_environment_figure(self):
         return self.environment_figure, self.environment_figure_ax
 
@@ -134,155 +114,85 @@ class StartingPosition(EnvironmentPoint):
         self.theta = theta
 
 
-class BoundaryWall:
-    def __init__(self, x1, y1, x2, y2, height=0.3, width=0.012, id=0):
-        self.end_point1 = EnvironmentPoint(x1, y1)
-        self.end_point2 = EnvironmentPoint(x2, y2)
+class Wall:
+    def __init__(self, x1, y1, x2, y2, height=0.3, width=0.012, wall_type='obstacle', texture=None, id=0):
+        self.x1, self.y1 = x1, y1
+        self.x2, self.y2 = x2, y2
         self.height = height
         self.width = width
-        self.length = math.dist((x1, y1), (x2, y2))
+        self.wall_type = wall_type
+        self.texture = texture
         self.id = id
-        self.center_mass = EnvironmentPoint((self.end_point1.x + self.end_point2.x) / 2,
-                                            (self.end_point1.y + self.end_point2.y) / 2)
-        self.dimensions = [self.width, self.length, self.height]
-        self.translation = [(self.end_point1.x + self.end_point2.x) / 2,
-                            (self.end_point1.y + self.end_point2.y) / 2,
-                            self.height / 2]
-        theta = math.atan2(self.end_point1.x - self.end_point2.x, self.end_point1.y - self.end_point2.y)
+        self.length = math.dist((x1, y1), (x2, y2))
+        cx, cy = (x1 + x2) / 2, (y1 + y2) / 2
+        self.translation = [cx, cy, height / 2]
+        cy = (y1 + y2) / 2
+        if cy >= 0:
+            theta = math.atan2(x1 - x2, y1 - y2)
+        else:
+            theta = math.atan2(x1 - x2, y2 - y1)
         self.rotation = [0, 0, 1, theta]
 
-    def get_webots_translation_string(self):
-        txt = 'translation {x:.2f} {y:.2f} {z:.2f}'
-        return txt.format(x=self.translation[0], y=self.translation[1], z=self.translation[2])
-
-    def get_webots_rotation_string(self):
-        txt = 'rotation {x:.2f} {y:.2f} {z:.2f} {theta:-.2f}'
-        return txt.format(x=self.rotation[0], y=self.rotation[1], z=self.rotation[2], theta=self.rotation[3])
-
-    def get_webots_size_string(self):
-        txt = 'size {width:.2f} {length:.2f} {height:.2f}'
-        return txt.format(width=self.width, length=self.length, height=self.height)
-
     def get_webots_node_string(self):
-        node_string = "{translation} {rotation} {size}".format(translation=self.get_webots_translation_string(),
-                                                               rotation=self.get_webots_rotation_string(),
-                                                               size=self.get_webots_size_string())
-        return 'DEF Boundary_Wall{id} Obstacle '.format(id=self.id) + '{ ' + node_string + ' }'
+        prefix = 'boundary_wall' if self.wall_type == 'boundary' else 'obstacle'
+        node = (
+            f'DEF {prefix}_{self.id} wall {{ '
+            f'translation {self.translation[0]:.2f} {self.translation[1]:.2f} {self.translation[2]:.2f} '
+            f'rotation {self.rotation[0]:.2f} {self.rotation[1]:.2f} {self.rotation[2]:.2f} {self.rotation[3]:.2f} '
+            f'size {self.width:.3f} {self.length:.3f} {self.height:.3f}'
+        )
+        if self.texture:
+            node += (
+                f' appearance PBRAppearance {{ '
+                f'baseColorMap ImageTexture {{ url ["{self.texture}"] }} '
+                f'metalness 0 roughness 0.5 }}'
+            )
+        return node + ' }'
 
 
-class Obstacle:
-    def __init__(self, x1, y1, x2, y2, height=0.3, width=0.012, id=0):
-        self.end_point1 = EnvironmentPoint(x1, y1)
-        self.end_point2 = EnvironmentPoint(x2, y2)
-        self.height = height
-        self.width = width
-        self.length = math.dist((x1, y1), (x2, y2))
+class Landmark:
+    def __init__(self, data, id=0):
+        self.landmark_type = data['type']
+        self.x = data['x']
+        self.y = data['y']
+        self.theta = data.get('theta', 0.0)
+        self.height = data['height']
+        self.color = [data['red'], data['green'], data['blue']]
         self.id = id
-        self.center_mass = EnvironmentPoint((self.end_point1.x + self.end_point2.x) / 2,
-                                            (self.end_point1.y + self.end_point2.y) / 2)
-        self.dimensions = [self.width, self.length, self.height]
-        self.translation = [(self.end_point1.x + self.end_point2.x) / 2,
-                            (self.end_point1.y + self.end_point2.y) / 2,
-                            self.height / 2]
-        theta = math.atan2(self.end_point1.x - self.end_point2.x, self.end_point1.y - self.end_point2.y)
-        self.rotation = [0, 0, 1, math.pi - theta]
 
-    def get_webots_translation_string(self):
-        txt = 'translation {x:.2f} {y:.2f} {z:.2f}'
-        return txt.format(x=self.translation[0], y=self.translation[1], z=self.translation[2])
+        if self.landmark_type == 'cylinder':
+            self.radius = data.get('radius', 0.25)
+        elif self.landmark_type == 'panel':
+            self.width = data.get('width', 1.0)
+            self.texture = data.get('texture', '')
 
-    def get_webots_rotation_string(self):
-        txt = 'rotation {x:.2f} {y:.2f} {z:.2f} {theta:-.2f}'
-        return txt.format(x=self.rotation[0], y=self.rotation[1], z=self.rotation[2], theta=self.rotation[3])
-
-    def get_webots_size_string(self):
-        txt = 'size {width:.2f} {length:.2f} {height:.2f}'
-        return txt.format(width=self.width, length=self.length, height=self.height)
+        self.translation = [self.x, self.y, self.height / 2]
+        self.rotation = [0, 0, 1, self.theta]
 
     def get_webots_node_string(self):
-        node_string = "{translation} {rotation} {size}".format(translation=self.get_webots_translation_string(),
-                                                               rotation=self.get_webots_rotation_string(),
-                                                               size=self.get_webots_size_string())
-        return 'DEF Obstacle_{id} Obstacle '.format(id=self.id) + '{ ' + node_string + ' }'
+        if self.landmark_type == 'cylinder':
+            return self._cylinder_node_string()
+        elif self.landmark_type == 'panel':
+            return self._panel_node_string()
 
-class CylinderLandmark:
-    def __init__(self, x, y, height=1.5, radius=.25, color=[1, 1, 1], id=0):
-        self.height = height
-        self.radius = radius
+    def _cylinder_node_string(self):
+        r, g, b = self.color
+        return (
+            f'DEF landmark_{self.id} landmark {{ '
+            f'translation {self.translation[0]:.2f} {self.translation[1]:.2f} {self.translation[2]:.2f} '
+            f'color {r:.2f} {g:.2f} {b:.2f} '
+            f'recognitionColors [{r:.2f} {g:.2f} {b:.2f}] '
+            f'size {self.height:.2f} {self.radius:.2f} {self.radius - 0.01:.2f} }}'
+        )
 
-        self.x = x
-        self.y = y
-        self.z = height/2
-        self.translation = [x, y, self.z]
-        self.id = id
-        self.color = color
-
-    def get_webots_translation_string(self):
-        txt = 'translation {x:.2f} {y:.2f} {z:.2f}'
-        return txt.format(x=self.translation[0], y=self.translation[1], z=self.translation[2])
-
-    def get_webots_size_string(self):
-        txt = 'size {width:.2f} {length:.2f} {height:.2f}'
-        return txt.format(width=self.height, length=self.radius, height=self.radius-.01)
-
-    def get_webots_color_string(self):
-        txt = 'color {red:.2f} {green:.2f} {blue:.2f}'
-        return txt.format(red=self.color[0], green=self.color[1], blue=self.color[2])
-    def get_webots_recognition_color_string(self):
-        txt = 'recognitionColors [{red:.2f} {green:.2f} {blue:.2f}]'
-        return txt.format(red=self.color[0], green=self.color[1], blue=self.color[2])
-
-    def get_webots_node_string(self):
-        node_string = "{translation} {color} {recognitionColors} {size}".format(translation=self.get_webots_translation_string(),
-                                                            color=self.get_webots_color_string(),
-                                                            recognitionColors=self.get_webots_recognition_color_string(),
-                                                            size=self.get_webots_size_string())
-        return 'DEF Landmark_{id} Landmark '.format(id=self.id) + '{ ' + node_string + ' }'
-
-class TagLandmark:
-    def __init__(self, x, y, theta, tag_id, height, width, color=[1, 1, 1]):
-        self.height = height
-        self.width = width
-
-        self.x = x
-        self.y = y
-        self.theta = theta
-
-        self.z = self.height/2
-
-        self.translation = [x, y, self.z]
-        self.tag_id = tag_id
-        self.color = color
-        self.rotation = [0, 0, 1, theta]
-
-    def get_webots_translation_string(self):
-        txt = 'translation {x:.2f} {y:.2f} {z:.2f}'
-        return txt.format(x=self.translation[0], y=self.translation[1], z=self.translation[2])
-
-    def get_webots_rotation_string(self):
-        txt = 'rotation {x:.2f} {y:.2f} {z:.2f} {theta:-.2f}'
-        return txt.format(x=self.rotation[0], y=self.rotation[1], z=self.rotation[2], theta=self.rotation[3])
-
-    def get_webots_size_string(self):
-        txt = 'size {width:.2f} {height:.2f}'
-        return txt.format(width=self.width, height=self.height)
-
-    def get_webots_color_string(self):
-        txt = 'color {red:.2f} {green:.2f} {blue:.2f}'
-        return txt.format(red=self.color[0], green=self.color[1], blue=self.color[2])
-    def get_webots_recognition_color_string(self):
-        txt = 'recognitionColors [{red:.2f} {green:.2f} {blue:.2f}]'
-        return txt.format(red=self.color[0], green=self.color[1], blue=self.color[2])
-
-    def get_webots_tag_string(self):
-        txt = 'signImage ["{path_to_tag_image}"]'
-        return txt.format(path_to_tag_image='../protos/WorldObjects/LandMarkTags/landmark_tag_'+str(int(self.tag_id))+'.png')
-
-    def get_webots_node_string(self):
-        node_string = "{translation} {rotation} {color} {recognitionColors} {size} {signImage}".format(translation=self.get_webots_translation_string(),
-                                                            rotation=self.get_webots_rotation_string(),
-                                                            color=self.get_webots_color_string(),
-                                                            recognitionColors=self.get_webots_recognition_color_string(),
-                                                            size=self.get_webots_size_string(),
-                                                            signImage = self.get_webots_tag_string())
-        return 'DEF Tag_Landmark_{id} RectangularPanel '.format(id=int(self.tag_id)) + '{ ' + node_string + ' }'
+    def _panel_node_string(self):
+        r, g, b = self.color
+        return (
+            f'DEF panel_{self.id} RectangularPanel {{ '
+            f'translation {self.translation[0]:.2f} {self.translation[1]:.2f} {self.translation[2]:.2f} '
+            f'rotation {self.rotation[0]:.2f} {self.rotation[1]:.2f} {self.rotation[2]:.2f} {self.rotation[3]:.2f} '
+            f'color {r:.2f} {g:.2f} {b:.2f} '
+            f'recognitionColors [{r:.2f} {g:.2f} {b:.2f}] '
+            f'size {self.width:.2f} {self.height:.2f} '
+            f'signImage ["{self.texture}"] }}'
+        )

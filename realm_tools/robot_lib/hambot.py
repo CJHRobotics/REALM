@@ -145,37 +145,29 @@ class HamBot(Supervisor):
     # DO NOT MODIFY: unless you are attempting to manipulate the webots world simulations!!!
 
     # Takes in a xml maze file and creates the walls, starting locations, and goal locations
-    def load_environment(self, maze_file,display =False):
-        self.maze = Environment(maze_file, display_width=self.robot_display.getWidth(),
+    def load_environment(self, environment_file, display=False):
+        self.maze = Environment(environment_file, display_width=self.robot_display.getWidth(),
                                 display_height=self.robot_display.getHeight())
         if display:
             self.maze_figure, self.maze_figure_ax = self.maze.get_environment_figure()
             self.maze_figure.savefig('data/DataCache/maze.png')
             self.update_robot_display(name='maze')
 
-        self.obstical_nodes = []
-        self.boundry_wall_nodes = []
-        self.cylinder_landmark_nodes = []
-        self.tag_landmark_nodes = []
+        self.environment_nodes = []
 
-        for obstacles in self.maze.obstacles:
-            self.children_field.importMFNodeFromString(-1, obstacles.get_webots_node_string())
-            self.obstical_nodes.append(self.experiment_supervisor.getFromDef('Obstacle'))
-        for boundary_wall in self.maze.boundary_walls:
-            self.children_field.importMFNodeFromString(-1, boundary_wall.get_webots_node_string())
-            self.boundry_wall_nodes.append(self.experiment_supervisor.getFromDef('Obstacle'))
-        for cylinder_landmark in self.maze.cylinder_landmarks:
-            self.children_field.importMFNodeFromString(-1, cylinder_landmark.get_webots_node_string())
-            self.cylinder_landmark_nodes.append(self.experiment_supervisor.getFromDef('Landmark'))
-        for tag_landmark in self.maze.tag_landmarks:
-            self.children_field.importMFNodeFromString(-1, tag_landmark.get_webots_node_string())
-            self.tag_landmark_nodes.append(self.experiment_supervisor.getFromDef('RectangularPanel'))
+        for wall in self.maze.boundary_walls + self.maze.obstacles:
+            self.children_field.importMFNodeFromString(-1, wall.get_webots_node_string())
+            self.environment_nodes.append(self.experiment_supervisor.getFromDef(f'{wall.wall_type}_{wall.id}'))
+
+        for landmark in self.maze.landmarks:
+            self.children_field.importMFNodeFromString(-1, landmark.get_webots_node_string())
+            self.environment_nodes.append(self.experiment_supervisor.getFromDef(f'{landmark.landmark_type}_{landmark.id}'))
 
     def reset_environment(self):
         self.teleport_robot(theta=math.pi / 2)
-        total_nodes = len(self.obstical_nodes) + len(self.boundry_wall_nodes) + len(self.landmark_nodes)
-        for i in range(total_nodes):
+        for _ in range(len(self.environment_nodes)):
             self.children_field.removeMF(-1)
+        self.environment_nodes = []
         self.maze.close_environment_figure()
         self.sensor_calibration()
 

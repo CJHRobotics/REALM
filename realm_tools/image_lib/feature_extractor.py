@@ -25,7 +25,7 @@ class FeatureExtractor:
         else:
             raise ValueError(f"Unsupported CNN extractor model: {self.cnn_extractor_model}")
         self.cnn_feature_extractor.eval()  # Set the model to evaluation mode
-        # Define preprocessing (same for both models since they are pre-trained on ImageNet)
+        # Define preprocessing (same for both meshes since they are pre-trained on ImageNet)
         self.preprocess = transforms.Compose([
             transforms.ToTensor(),
             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])

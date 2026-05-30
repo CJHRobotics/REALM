@@ -22,9 +22,9 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/project
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/computers/protos/Monitor.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/computers/protos/Keyboard.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/chairs/protos/OfficeChair.proto"
-IMPORTABLE EXTERNPROTO "../protos/WorldObjects/Landmark.proto"
-IMPORTABLE EXTERNPROTO "../protos/WorldObjects/Obstacle.proto"
-EXTERNPROTO "../protos/HamBot/HamBot.proto"
+IMPORTABLE EXTERNPROTO "../protos/world_objects/objects/landmark.proto"
+IMPORTABLE EXTERNPROTO "../protos/world_objects/objects/wall.proto"
+EXTERNPROTO "../protos/robots/hambot/hambot.proto"
 
 WorldInfo {
   info [
@@ -1166,6 +1166,6 @@ OfficeChair {
   rotation 0 0 1 0.785397
   name "office chair(5)"
 }
-HamBot {
+hambot {
   translation 0 0 0.032
 }

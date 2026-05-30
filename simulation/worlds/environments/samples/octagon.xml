@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<environment>
+
+    <wall x1=" 2.61" y1=" 1.85" x2=" 1.85" y2=" 0.00" type="boundary" height="0.5" width="0.012"/>
+    <wall x1=" 1.85" y1=" 2.61" x2=" 0.00" y2=" 1.85" type="boundary" height="0.5" width="0.012"/>
+    <wall x1=" 0.00" y1=" 1.85" x2="-1.85" y2=" 2.61" type="boundary" height="0.5" width="0.012"/>
+    <wall x1="-1.85" y1=" 0.00" x2="-2.61" y2=" 1.85" type="boundary" height="0.5" width="0.012"/>
+    <wall x1="-2.61" y1=" 0.00" x2="-1.85" y2="-1.85" type="boundary" height="0.5" width="0.012"/>
+    <wall x1="-1.85" y1="-1.85" x2=" 0.00" y2="-2.61" type="boundary" height="0.5" width="0.012"/>
+    <wall x1=" 0.00" y1="-2.61" x2=" 1.85" y2="-1.85" type="boundary" height="0.5" width="0.012"/>
+    <wall x1=" 1.85" y1="-1.85" x2=" 2.61" y2=" 0.00" type="boundary" height="0.5" width="0.012"/>
+
+    <landmark type="panel" x=" 2.23" y=" 0.93" theta="-2.749" height="1.0" width="1.0"
+              texture="../protos/world_objects/textures/april_tags/landmark_tag_0.png"
+              red="1.00" green="0.00" blue="0.00"/>
+    <landmark type="panel" x=" 0.93" y=" 2.23" theta="-1.963" height="1.0" width="1.0"
+              texture="../protos/world_objects/textures/april_tags/landmark_tag_1.png"
+              red="0.00" green="1.00" blue="0.00"/>
+    <landmark type="panel" x="-0.93" y=" 2.23" theta="-1.178" height="1.0" width="1.0"
+              texture="../protos/world_objects/textures/april_tags/landmark_tag_2.png"
+              red="0.00" green="0.00" blue="1.00"/>
+    <landmark type="panel" x="-2.23" y=" 0.93" theta="-0.393" height="1.0" width="1.0"
+              texture="../protos/world_objects/textures/april_tags/landmark_tag_3.png"
+              red="1.00" green="1.00" blue="0.00"/>
+    <landmark type="panel" x="-2.23" y="-0.93" theta=" 0.393" height="1.0" width="1.0"
+              texture="../protos/world_objects/textures/april_tags/landmark_tag_4.png"
+              red="0.00" green="1.00" blue="1.00"/>
+    <landmark type="panel" x="-0.93" y="-2.23" theta=" 1.178" height="1.0" width="1.0"
+              texture="../protos/world_objects/textures/april_tags/landmark_tag_5.png"
+              red="1.00" green="0.50" blue="0.00"/>
+    <landmark type="panel" x=" 0.93" y="-2.23" theta=" 1.963" height="1.0" width="1.0"
+              texture="../protos/world_objects/textures/april_tags/landmark_tag_6.png"
+              red="0.50" green="0.00" blue="0.50"/>
+    <landmark type="panel" x=" 2.23" y="-0.93" theta=" 2.749" height="1.0" width="1.0"
+              texture="../protos/world_objects/textures/april_tags/landmark_tag_7.png"
+              red="0.00" green="0.50" blue="0.50"/>
+
+    <train_start_positions>
+        <pos x="-1.5" y="0.0" theta="0.0"/>
+    </train_start_positions>
+
+    <test_start_positions>
+        <pos x="-1.5" y="0.0" theta="0.0"/>
+    </test_start_positions>
+
+    <goal id="0" x="0.0" y="0.0"/>
+
+</environment>

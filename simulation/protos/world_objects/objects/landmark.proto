@@ -6,7 +6,7 @@
 # The UV-mapping is defined in a metric way (the textures are not deformed - the reference is the longest edge).
 # template language: javascript
 
-PROTO Landmark [
+PROTO landmark [
   field SFVec3f    translation           0 0 0.75
   field SFRotation rotation              0 0 1 0
   field SFVec3f    size                  1.5 0.25 0.249

@@ -6,13 +6,13 @@
 # The UV-mapping is defined in a metric way (the textures are not deformed - the reference is the longest edge).
 # template language: javascript
 
-PROTO Obstacle [
+PROTO wall [
   field SFVec3f    translation           0 0 0.05
   field SFRotation rotation              0 0 1 0
-  field SFString   name                  "Obstacle"
+  field SFString   name                  "wall"
   field SFVec3f    size                  0.012 0.18 0.1
   field SFString   contactMaterial       "default"
-  field SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "textures/wall_texture.jpg" ] } metalness 0 roughness 0.5 }
+  field SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "../textures/wall_textures/black_marble.jpg" ] } metalness 0 roughness 0.5 }
   field SFNode     physics               NULL
   field SFBool     enableBoundingObject  TRUE
   field SFBool     castShadows           TRUE
