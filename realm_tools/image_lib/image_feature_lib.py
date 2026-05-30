@@ -1,17 +1,17 @@
 import cv2
 import numpy as np
 
+# Created once at import time — reused for every image
+_HOG = cv2.HOGDescriptor(
+    _winSize=(64, 128), _blockSize=(16, 16), _blockStride=(8, 8),
+    _cellSize=(8, 8), _nbins=9
+)
+
 
 def extract_hog_features(image):
     gray_image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
-    hog = cv2.HOGDescriptor(_winSize=(64, 128),
-                            _blockSize=(16, 16),
-                            _blockStride=(8, 8),
-                            _cellSize=(8, 8),
-                            _nbins=9)
     resized_image = cv2.resize(gray_image, (64, 128))
-    hog_features = hog.compute(resized_image).flatten()
-    return hog_features
+    return _HOG.compute(resized_image).flatten()
 
 
 def extract_color_histogram(image, bins=(8, 8, 8)):
@@ -25,8 +25,10 @@ def extract_spatial_histogram(image, size=(32, 32)):
 
 
 def extract_combined_features(image, landmark_mask=None, robot_theta=None):
-    # Ensure the image is in the correct format
-    image = np.array(image, dtype=np.uint8)[:, :, :3]
+    # Ensure contiguous uint8 RGB array. If already numpy (from get_pov_image) this is a no-op.
+    if not isinstance(image, np.ndarray):
+        image = np.array(image, dtype=np.uint8)
+    image = np.ascontiguousarray(image[:, :, :3], dtype=np.uint8)
     # Extract individual features
     hog_features = extract_hog_features(image)
     color_histogram = extract_color_histogram(image)

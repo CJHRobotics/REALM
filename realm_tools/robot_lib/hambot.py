@@ -176,7 +176,7 @@ class HamBot(Supervisor):
         self.robot_translation_field.setSFVec3f([x, y, z])
         self.robot_rotation_field.setSFRotation([0, 0, 1, theta])
         self.robot_node.resetPhysics()
-        self.sensor_calibration()
+        self.sensor_calibration(stop_num=0)  # 1 step is enough post-teleport
 
     def move_to_start(self, mode='testing', index=0):
         if mode == 'training':
