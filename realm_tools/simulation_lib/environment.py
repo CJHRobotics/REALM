@@ -126,11 +126,7 @@ class Wall:
         self.length = math.dist((x1, y1), (x2, y2))
         cx, cy = (x1 + x2) / 2, (y1 + y2) / 2
         self.translation = [cx, cy, height / 2]
-        cy = (y1 + y2) / 2
-        if cy >= 0:
-            theta = math.atan2(x1 - x2, y1 - y2)
-        else:
-            theta = math.atan2(x1 - x2, y2 - y1)
+        theta = math.atan2(x1 - x2, y2 - y1)
         self.rotation = [0, 0, 1, theta]
 
     def get_webots_node_string(self):
