@@ -32,7 +32,7 @@
 
     <!-- Panel landmark: april tag -->
     <landmark type="panel" x=" 0.00" y=" 2.50" theta="-1.571" height="1.0" width="1.0"
-              texture="../protos/world_objects/textures/april_tags/landmark_tag_0.png"
+              texture="../protos/world_objects/textures/april_tags/april_tag_0.png"
               red="0.00" green="1.00" blue="0.00"/>
 
     <!-- Panel landmark: flag -->

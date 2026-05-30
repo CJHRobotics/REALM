@@ -8,16 +8,16 @@
     <wall x1="-2.00" y1="-1.00" x2="-2.00" y2=" 1.00" type="boundary" height="0.5" width="0.012"/>
 
     <landmark type="panel" x=" 0.00" y=" 1.00" theta="-1.571" height="1.0" width="1.0"
-              texture="../protos/world_objects/textures/april_tags/landmark_tag_0.png"
+              texture="../protos/world_objects/textures/april_tags/april_tag_0.png"
               red="1.00" green="0.00" blue="0.00"/>
     <landmark type="panel" x=" 2.00" y=" 0.00" theta=" 3.141" height="1.0" width="1.0"
-              texture="../protos/world_objects/textures/april_tags/landmark_tag_1.png"
+              texture="../protos/world_objects/textures/april_tags/april_tag_1.png"
               red="0.00" green="1.00" blue="0.00"/>
     <landmark type="panel" x=" 0.00" y="-1.00" theta=" 1.571" height="1.0" width="1.0"
-              texture="../protos/world_objects/textures/april_tags/landmark_tag_2.png"
+              texture="../protos/world_objects/textures/april_tags/april_tag_2.png"
               red="0.00" green="0.00" blue="1.00"/>
     <landmark type="panel" x="-2.00" y=" 0.00" theta=" 0.000" height="1.0" width="1.0"
-              texture="../protos/world_objects/textures/april_tags/landmark_tag_3.png"
+              texture="../protos/world_objects/textures/april_tags/april_tag_3.png"
               red="1.00" green="1.00" blue="0.00"/>
 
     <train_start_positions>

@@ -76,7 +76,7 @@ A flat rectangular panel — uses the Webots `RectangularPanel` proto. Supports 
 <landmark type="panel"
           x="0.0" y="1.0" theta="-1.571"
           height="1.0" width="1.0"
-          texture="../protos/world_objects/textures/april_tags/landmark_tag_0.png"
+          texture="../protos/world_objects/textures/april_tags/april_tag_0.png"
           red="1.0" green="0.0" blue="0.0"/>
 ```
 
@@ -135,7 +135,7 @@ Define one or more robot start poses for training and testing separately. Theta 
     <wall x1="-2.0" y1="-2.0" x2="-2.0" y2=" 2.0" type="boundary"/>
 
     <landmark type="panel" x="0.0" y="2.0" theta="-1.571" height="1.0" width="1.0"
-              texture="../protos/world_objects/textures/april_tags/landmark_tag_0.png"/>
+              texture="../protos/world_objects/textures/april_tags/april_tag_0.png"/>
 
     <train_start_positions>
         <pos x="-1.0" y="0.0" theta="0.0"/>
