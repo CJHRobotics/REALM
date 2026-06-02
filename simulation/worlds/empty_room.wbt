@@ -4,7 +4,6 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/project
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/floors/protos/Floor.proto"
 IMPORTABLE EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/traffic/protos/RectangularPanel.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/appearances/protos/Parquetry.proto"
 IMPORTABLE EXTERNPROTO "../protos/world_objects/objects/landmark.proto"
 IMPORTABLE EXTERNPROTO "../protos/world_objects/objects/wall.proto"
 EXTERNPROTO "../protos/robots/hambot/hambot.proto"
@@ -42,12 +41,16 @@ TexturedBackgroundLight {
   luminosity 1.8
   castShadows TRUE
 }
-Floor {
+DEF ENVIRONMENT_FLOOR Floor {
   name "Environment Floor"
   size 100 100
   tileSize 2 2
-  appearance Parquetry {
-    type "light strip"
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url "../protos/world_objects/textures/floor_textures/lightwood.png"
+    }
+    roughness 1
+    metalness 0
   }
 }
 hambot {

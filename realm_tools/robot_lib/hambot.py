@@ -2,6 +2,7 @@ from realm_tools.simulation_lib.environment import Environment
 from controller import Supervisor, Display
 from PIL import Image
 import math
+import os
 
 class HamBot(Supervisor):
 
@@ -145,7 +146,7 @@ class HamBot(Supervisor):
     # DO NOT MODIFY: unless you are attempting to manipulate the webots world simulations!!!
 
     # Takes in a xml maze file and creates the walls, starting locations, and goal locations
-    def load_environment(self, environment_file, display=False):
+    def load_environment(self, environment_file, display=False, floor_texture=None):
         self.maze = Environment(environment_file, display_width=self.robot_display.getWidth(),
                                 display_height=self.robot_display.getHeight())
         if display:
@@ -163,6 +164,9 @@ class HamBot(Supervisor):
             self.children_field.importMFNodeFromString(-1, landmark.get_webots_node_string())
             self.environment_nodes.append(self.experiment_supervisor.getFromDef(f'{landmark.landmark_type}_{landmark.id}'))
 
+        if floor_texture is not None:
+            self.set_floor_texture(floor_texture)
+
     def reset_environment(self):
         self.teleport_robot(theta=math.pi / 2)
         for _ in range(len(self.environment_nodes)):
@@ -170,6 +174,36 @@ class HamBot(Supervisor):
         self.environment_nodes = []
         self.maze.close_environment_figure()
         self.sensor_calibration()
+
+    def set_floor_texture(self, texture):
+        """
+        Swap the floor texture at runtime.
+
+        Parameters
+        ----------
+        texture : str
+            Either a bare name ('carpet', 'concrete', 'lightwood', 'darkwood',
+            'lightwood_darkwood') or a path relative to the worlds/ directory
+            (e.g. '../protos/world_objects/textures/floor_textures/carpet.png').
+            The .png extension is added automatically if omitted.
+
+        Requires the Floor node in the world file to be tagged DEF ENVIRONMENT_FLOOR.
+        """
+        if not os.path.sep in texture and not texture.startswith('..'):
+            if not texture.endswith('.png'):
+                texture += '.png'
+            texture = f'../protos/world_objects/textures/floor_textures/{texture}'
+
+        floor_node = self.experiment_supervisor.getFromDef('ENVIRONMENT_FLOOR')
+        if floor_node is None:
+            print("Warning: DEF ENVIRONMENT_FLOOR not found — add it to the world file.")
+            return
+
+        url_field = (floor_node
+                     .getField('appearance').getSFNode()
+                     .getField('baseColorMap').getSFNode()
+                     .getField('url'))
+        url_field.setMFString(0, texture)
 
     # Teleports the robot to the point (x,y,z)
     def teleport_robot(self, x=0.0, y=0.0, z=0.09, theta=math.pi):

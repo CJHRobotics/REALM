@@ -40,10 +40,17 @@ TexturedBackgroundLight {
   luminosity 1.8
   castShadows TRUE
 }
-Floor {
+DEF ENVIRONMENT_FLOOR Floor {
   name "Environment Floor"
   size 100 100
   tileSize 2 2
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url "../protos/world_objects/textures/floor_textures/lightwood_darkwood.png"
+    }
+    roughness 1
+    metalness 0
+  }
 }
 hambot {
   translation 0 0 0.09
