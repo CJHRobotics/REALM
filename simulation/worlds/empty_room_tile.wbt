@@ -30,9 +30,15 @@ Viewpoint {
   position 3.54948960891166e-05 3.549499645638665e-05 13.60079196654361
 }
 TexturedBackground {
+  texture "factory"
+  luminosity 1.75
+  skybox FALSE
+  skyColor 0.5 0.5 0.5
 }
 TexturedBackgroundLight {
-  luminosity 1.1
+  texture "factory"
+  luminosity 1.8
+  castShadows TRUE
 }
 Floor {
   name "Environment Floor"
