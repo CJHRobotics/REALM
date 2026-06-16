@@ -28,13 +28,14 @@ class Environment:
     def __init__(self, environment_file, display_width=1000, display_height=1000):
         self.boundary_walls = []
         self.obstacles = []
+        self.circular_walls = []
         self.landmarks = []
         self.training_starting_location = []
         self.testing_start_location = []
         self.goal_locations = []
         self._wall_lines = []
 
-        walls, landmarks, goals, train_starts, test_starts = parse_environment(environment_file)
+        walls, circular_walls, landmarks, goals, train_starts, test_starts = parse_environment(environment_file)
 
         for i, w in enumerate(walls):
             wall = Wall(w['x1'], w['y1'], w['x2'], w['y2'],
@@ -45,6 +46,9 @@ class Environment:
             else:
                 self.obstacles.append(wall)
             self._wall_lines.append([(w['x1'], w['y1']), (w['x2'], w['y2'])])
+
+        for i, cw in enumerate(circular_walls):
+            self.circular_walls.append(CircularWall(cw, id=i))
 
         for i, lm in enumerate(landmarks):
             self.landmarks.append(Landmark(lm, id=i))
@@ -67,6 +71,9 @@ class Environment:
         self.environment_figure, self.environment_figure_ax = plt.subplots(
             1, 1, figsize=(display_width / 100, display_height / 100))
         self.environment_figure_ax.add_collection(pycol.LineCollection(self._wall_lines, linewidths=2))
+        for cw in self.circular_walls:
+            self.environment_figure_ax.add_patch(
+                patches.Circle((cw.x, cw.y), radius=cw.radius, fill=False, linewidth=2))
         for p in self.training_starting_location:
             self.environment_figure_ax.add_patch(patches.Circle((p.x, p.y), radius=0.05, color='green'))
         for p in self.testing_start_location:
@@ -191,4 +198,42 @@ class Landmark:
             f'recognitionColors [{r:.2f} {g:.2f} {b:.2f}] '
             f'size {self.width:.2f} {self.height:.2f} '
             f'signImage ["{self.texture}"] }}'
+        )
+
+
+class CircularWall:
+    def __init__(self, data, id=0):
+        self.id = id
+        self.x = data['x']
+        self.y = data['y']
+        self.radius = data['radius']
+        self.height = data['height']
+        self.thickness = data['thickness']
+        self.subdivision = data['subdivision']
+        self.color = [data['red'], data['green'], data['blue']]
+        self.texture = data['texture']
+        self.translation = [self.x, self.y, self.height / 2]
+
+    def get_webots_node_string(self):
+        r, g, b = self.color
+        if self.texture:
+            appearance = (
+                f'PBRAppearance {{ '
+                f'baseColorMap ImageTexture {{ url ["{self.texture}"] }} '
+                f'metalness 0 roughness 0.5 }}'
+            )
+        else:
+            appearance = (
+                f'PBRAppearance {{ '
+                f'baseColor {r:.2f} {g:.2f} {b:.2f} '
+                f'metalness 0 roughness 0.5 }}'
+            )
+        return (
+            f'DEF circular_wall_{self.id} SolidPipe {{ '
+            f'translation {self.translation[0]:.2f} {self.translation[1]:.2f} {self.translation[2]:.2f} '
+            f'height {self.height:.3f} '
+            f'radius {self.radius:.3f} '
+            f'thickness {self.thickness:.3f} '
+            f'subdivision {self.subdivision} '
+            f'appearance {appearance} }}'
         )

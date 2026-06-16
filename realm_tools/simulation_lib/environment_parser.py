@@ -56,6 +56,25 @@ def parse_all_positions(xml_positions):
     return [parse_position(p) for p in xml_positions.findall('pos')]
 
 
+def parse_circular_wall(xml_cwall):
+    return {
+        'x':           float(xml_cwall.get('x', 0.0)),
+        'y':           float(xml_cwall.get('y', 0.0)),
+        'radius':      float(xml_cwall.get('radius')),
+        'height':      float(xml_cwall.get('height', 0.5)),
+        'thickness':   float(xml_cwall.get('thickness', 0.012)),
+        'subdivision': int(xml_cwall.get('subdivision', 24)),
+        'red':         float(xml_cwall.get('red', 0.0)),
+        'green':       float(xml_cwall.get('green', 0.0)),
+        'blue':        float(xml_cwall.get('blue', 0.0)),
+        'texture':     xml_cwall.get('texture', None),
+    }
+
+
+def parse_all_circular_walls(xml_root):
+    return [parse_circular_wall(cw) for cw in xml_root.findall('circular_wall')]
+
+
 def parse_goal(xml_goal):
     return {
         'id': int(xml_goal.get('id', 0)),
@@ -72,6 +91,7 @@ def parse_environment(file):
     root = ET.parse(file).getroot()
     return (
         parse_all_walls(root),
+        parse_all_circular_walls(root),
         parse_all_landmarks(root),
         parse_all_goals(root),
         parse_all_positions(root.find('train_start_positions')),

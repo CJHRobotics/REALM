@@ -93,6 +93,30 @@ Texture path is passed directly to Webots — the parser does not validate it. A
 
 ---
 
+## Circular Walls
+
+A circular (cylindrical) boundary using the Webots `SolidPipe` proto. Useful for round arenas. Only `radius` is required.
+
+```xml
+<circular_wall x="0.0" y="0.0" radius="2.5"
+               height="0.5" thickness="0.02" subdivision="32"
+               texture="../protos/world_objects/textures/wall_textures/white_marble.png"/>
+```
+
+| Attribute | Required | Default | Description |
+|-----------|----------|---------|-------------|
+| `radius` | yes | — | Radius of the pipe center-line (meters) |
+| `x`, `y` | no | `0.0` | Center position (meters) |
+| `height` | no | `0.5` | Wall height in meters |
+| `thickness` | no | `0.012` | Wall thickness in meters |
+| `subdivision` | no | `24` | Number of polygon faces — higher is smoother (min 8) |
+| `texture` | no | — | Path to texture image, relative to the world file |
+| `red`, `green`, `blue` | no | `0.0` | Base color RGB (0–1), used when no texture is set |
+
+If `texture` is omitted the wall is rendered as a solid color (default black). If both are provided, `texture` takes precedence. The wall is automatically positioned so its base sits on the floor (`z = height / 2`).
+
+---
+
 ## Start Positions
 
 Define one or more robot start poses for training and testing separately. Theta is in radians.

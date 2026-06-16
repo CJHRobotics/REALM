@@ -160,6 +160,10 @@ class HamBot(Supervisor):
             self.children_field.importMFNodeFromString(-1, wall.get_webots_node_string())
             self.environment_nodes.append(self.experiment_supervisor.getFromDef(f'{wall.wall_type}_{wall.id}'))
 
+        for cwall in self.maze.circular_walls:
+            self.children_field.importMFNodeFromString(-1, cwall.get_webots_node_string())
+            self.environment_nodes.append(self.experiment_supervisor.getFromDef(f'circular_wall_{cwall.id}'))
+
         for landmark in self.maze.landmarks:
             self.children_field.importMFNodeFromString(-1, landmark.get_webots_node_string())
             self.environment_nodes.append(self.experiment_supervisor.getFromDef(f'{landmark.landmark_type}_{landmark.id}'))

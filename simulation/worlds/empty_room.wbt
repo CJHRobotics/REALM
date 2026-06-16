@@ -6,6 +6,7 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/project
 IMPORTABLE EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/traffic/protos/RectangularPanel.proto"
 IMPORTABLE EXTERNPROTO "../protos/world_objects/objects/landmark.proto"
 IMPORTABLE EXTERNPROTO "../protos/world_objects/objects/wall.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/objects/solids/protos/SolidPipe.proto"
 EXTERNPROTO "../protos/robots/hambot/hambot.proto"
 
 
