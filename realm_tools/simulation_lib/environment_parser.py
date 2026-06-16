@@ -62,7 +62,7 @@ def parse_circular_wall(xml_cwall):
         'y':           float(xml_cwall.get('y', 0.0)),
         'radius':      float(xml_cwall.get('radius')),
         'height':      float(xml_cwall.get('height', 0.5)),
-        'thickness':   float(xml_cwall.get('thickness', 0.012)),
+        'thickness':   float(xml_cwall.get('thickness', 0.1)),
         'subdivision': int(xml_cwall.get('subdivision', 24)),
         'red':         float(xml_cwall.get('red', 0.0)),
         'green':       float(xml_cwall.get('green', 0.0)),
